@@ -272,6 +272,7 @@ GameObject:
   - component: {fileID: 738657906}
   - component: {fileID: 738657910}
   - component: {fileID: 738657909}
+  - component: {fileID: 738657911}
   - component: {fileID: 738657908}
   - component: {fileID: 738657907}
   m_Layer: 0
@@ -446,6 +447,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &738657911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738657905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200aab9a4b6731944ba45a6589143eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHP: 100
+  currentHP: 0
+  maxHydroric: 100
+  currentHydroric: 0
+  heatIncreaseRate: 10
+  shieldedHeatIncreaseRate: 5
+  coolDownRate: 15
+  overheatDamageRate: 10
+  sodaDecreaseAmount: 50
+  hydroricSlider: {fileID: 0}
+  hydroricFillImage: {fileID: 0}
+  shieldUI: {fileID: 0}
+  shieldAnimator: {fileID: 0}
+  isInHotZone: 0
+  isShieldActive: 0
+  isOverheated: 0
 --- !u!1 &828917214
 GameObject:
   m_ObjectHideFlags: 0
