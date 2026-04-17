@@ -25,6 +25,8 @@ public class PlayerSkills : MonoBehaviour
     public float stealthDuration = 3f;
     private SpriteRenderer sr;
     private int originalLayer;
+    [Header("Animation")]
+    public Animator animator;
 
     void Start()
     {
@@ -126,6 +128,8 @@ public class PlayerSkills : MonoBehaviour
     IEnumerator StealthRoutine()
     {
         Debug.Log("🌫️ เริ่มพรางตัว!");
+        animator.SetTrigger("Stealth"); // เริ่มเล่นอนิเมชั่นพรางตัว
+        yield return new WaitForSeconds(1f);
         Color originalColor = sr.color;
         sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.4f);
         gameObject.layer = LayerMask.NameToLayer("StealthPlayer");
