@@ -1,97 +1,235 @@
 fileFormatVersion: 2
-guid: 086bbf848e506be4aa74ff7071dde653
+guid: 8b18c9fca3d3ab646abf9c1cbd1d09c4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9087577266532155448
-    second: smoke_0
+      213: 4301844918096825189
+    second: hammer_0
   - first:
-      213: -1106684591460216115
-    second: smoke_1
+      213: -6030043224269349317
+    second: hammer_1
   - first:
-      213: -5983078005227543334
-    second: smoke_2
+      213: -8258728375015105676
+    second: hammer_2
   - first:
-      213: 7818055727696256662
-    second: smoke_3
+      213: -1159298483449069950
+    second: hammer_3
   - first:
-      213: 8013849657407384527
-    second: smoke_4
+      213: 1784401183296663280
+    second: hammer_4
   - first:
-      213: -5181280606106272151
-    second: smoke_5
+      213: 1632725881280823895
+    second: hammer_5
   - first:
-      213: -7197358887858680917
-    second: smoke_6
+      213: 393260495992152720
+    second: hammer_6
   - first:
-      213: 5016423947855932505
-    second: smoke_7
+      213: -3640931303203937128
+    second: hammer_7
   - first:
-      213: 9222936549612893643
-    second: smoke_8
+      213: -8705565869883891278
+    second: hammer_8
   - first:
-      213: -8405810056075184875
-    second: smoke_9
+      213: 8926881477360062686
+    second: hammer_9
   - first:
-      213: 4533276400751805687
-    second: smoke_10
+      213: -534786374937900092
+    second: hammer_10
   - first:
-      213: 793098998536912355
-    second: smoke_11
+      213: 4482013812231433375
+    second: hammer_11
   - first:
-      213: -4146559902689503467
-    second: smoke_12
+      213: 5828879757645499619
+    second: hammer_12
   - first:
-      213: -147079168621411958
-    second: smoke_13
+      213: 8193595170819662410
+    second: hammer_13
   - first:
-      213: -5429914542057222309
-    second: smoke_14
+      213: -4861325127886710163
+    second: hammer_14
   - first:
-      213: 8660829651709336321
-    second: smoke_15
+      213: 3792571915530056257
+    second: hammer_15
   - first:
-      213: 4467559831066036154
-    second: smoke_16
+      213: -8513103162584473425
+    second: hammer_16
   - first:
-      213: 8964992911070239382
-    second: smoke_17
+      213: 6719641860199963690
+    second: hammer_17
   - first:
-      213: -7353024264502032344
-    second: smoke_18
+      213: -3370679024140313256
+    second: hammer_18
   - first:
-      213: 2660107196968635362
-    second: smoke_19
+      213: -4331098000531199671
+    second: hammer_19
   - first:
-      213: -3124860306270517956
-    second: smoke_20
+      213: 7893869484515573170
+    second: hammer_20
   - first:
-      213: -7086095306979105187
-    second: smoke_21
+      213: -7072256234765588052
+    second: hammer_21
   - first:
-      213: -752453552295926404
-    second: smoke_22
+      213: 7481481524664423878
+    second: hammer_22
   - first:
-      213: 2562045622085424948
-    second: smoke_23
+      213: 1288512676092964861
+    second: hammer_23
   - first:
-      213: 8775083843754448836
-    second: smoke_24
+      213: 6409724009022252772
+    second: hammer_24
   - first:
-      213: 7613586544555962731
-    second: smoke_25
+      213: -457022392493176604
+    second: hammer_25
   - first:
-      213: 2177271158577486219
-    second: smoke_26
+      213: 6799394740245925410
+    second: hammer_26
   - first:
-      213: -8081133032197041800
-    second: smoke_27
+      213: 5024843805982009822
+    second: hammer_27
   - first:
-      213: 6499927206681501392
-    second: smoke_28
+      213: 4594052159879894319
+    second: hammer_28
   - first:
-      213: 777148536076656011
-    second: smoke_29
+      213: 5026638128404016518
+    second: hammer_29
+  - first:
+      213: -1257515635823417256
+    second: hammer_30
+  - first:
+      213: 1772700124800629159
+    second: hammer_31
+  - first:
+      213: -5762582319765422513
+    second: hammer_32
+  - first:
+      213: 7251075071462186624
+    second: hammer_33
+  - first:
+      213: 5481668724969385435
+    second: hammer_34
+  - first:
+      213: -5879684498899406561
+    second: hammer_35
+  - first:
+      213: -289591187564913714
+    second: hammer_36
+  - first:
+      213: -4275070602618552143
+    second: hammer_37
+  - first:
+      213: -8472087346324730674
+    second: hammer_38
+  - first:
+      213: 378015464035893714
+    second: hammer_39
+  - first:
+      213: 2629156340169277930
+    second: hammer_40
+  - first:
+      213: -1560265592923130321
+    second: hammer_41
+  - first:
+      213: -8729652842642655520
+    second: hammer_42
+  - first:
+      213: 6279685818444366584
+    second: hammer_43
+  - first:
+      213: -6352522806898771380
+    second: hammer_44
+  - first:
+      213: 6520455530750025355
+    second: hammer_45
+  - first:
+      213: 6204423399410510615
+    second: hammer_46
+  - first:
+      213: 3802440789794144242
+    second: hammer_47
+  - first:
+      213: 8875731276440698387
+    second: hammer_48
+  - first:
+      213: -5719898707453816783
+    second: hammer_49
+  - first:
+      213: 3746224243573389633
+    second: hammer_50
+  - first:
+      213: 8637016385685458110
+    second: hammer_51
+  - first:
+      213: 8395477673039060702
+    second: hammer_52
+  - first:
+      213: -4640053971369523161
+    second: hammer_53
+  - first:
+      213: 3720013395567333592
+    second: hammer_54
+  - first:
+      213: -7829650327012590710
+    second: hammer_55
+  - first:
+      213: -529641917805584282
+    second: hammer_56
+  - first:
+      213: -5749438563543516831
+    second: hammer_57
+  - first:
+      213: -892874023095245648
+    second: hammer_58
+  - first:
+      213: 447057644196353604
+    second: hammer_59
+  - first:
+      213: -2847747920347511190
+    second: hammer_60
+  - first:
+      213: 8944694689506869501
+    second: hammer_61
+  - first:
+      213: -6763761567236526583
+    second: hammer_62
+  - first:
+      213: 6955622604629860418
+    second: hammer_63
+  - first:
+      213: -2893778390963568082
+    second: hammer_64
+  - first:
+      213: -7360400304423370919
+    second: hammer_65
+  - first:
+      213: 2727831115194732603
+    second: hammer_66
+  - first:
+      213: -1224566600918706086
+    second: hammer_67
+  - first:
+      213: 5537542389833841543
+    second: hammer_68
+  - first:
+      213: -2947573371532446949
+    second: hammer_69
+  - first:
+      213: -1045973823583632548
+    second: hammer_70
+  - first:
+      213: -3786070599222653773
+    second: hammer_71
+  - first:
+      213: 543247148151449114
+    second: hammer_72
+  - first:
+      213: -1773165480792350229
+    second: hammer_73
+  - first:
+      213: 2143386315380713765
+    second: hammer_74
+  - first:
+      213: 3526294235823384953
+    second: hammer_75
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -159,7 +297,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -187,13 +325,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: smoke_0
+      name: hammer_0
       rect:
         serializedVersion: 2
-        x: 1109
-        y: 14
-        width: 64
-        height: 75
+        x: 0
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,20 +340,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8cf7f67cf9072e180800000000000000
-      internalID: -9087577266532155448
+      spriteID: 56b0bfd292933bb30800000000000000
+      internalID: 4301844918096825189
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_1
+      name: hammer_1
       rect:
         serializedVersion: 2
-        x: 1206
-        y: 23
-        width: 63
-        height: 76
+        x: 128
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -224,20 +362,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dc29d9f3a3444a0f0800000000000000
-      internalID: -1106684591460216115
+      spriteID: b3e9c25d2abf05ca0800000000000000
+      internalID: -6030043224269349317
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_2
+      name: hammer_2
       rect:
         serializedVersion: 2
-        x: 1306
-        y: 19
-        width: 55
-        height: 80
+        x: 256
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,20 +384,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad4a5f20146d7fca0800000000000000
-      internalID: -5983078005227543334
+      spriteID: 47b19ceac4a136d80800000000000000
+      internalID: -8258728375015105676
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_3
+      name: hammer_3
       rect:
         serializedVersion: 2
-        x: 1406
-        y: 19
-        width: 42
-        height: 73
+        x: 384
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,20 +406,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69e1b8333405f7c60800000000000000
-      internalID: 7818055727696256662
+      spriteID: 28e7e59eb2859efe0800000000000000
+      internalID: -1159298483449069950
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_4
+      name: hammer_4
       rect:
         serializedVersion: 2
-        x: 1512
-        y: 47
-        width: 30
-        height: 42
+        x: 512
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,20 +428,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fcb2721edc9e63f60800000000000000
-      internalID: 8013849657407384527
+      spriteID: 0fe2f2b0c6773c810800000000000000
+      internalID: 1784401183296663280
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_5
+      name: hammer_5
       rect:
         serializedVersion: 2
-        x: 1533
-        y: 86
-        width: 8
-        height: 6
+        x: 640
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,20 +450,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96e3a678db46818b0800000000000000
-      internalID: -5181280606106272151
+      spriteID: 7528459d98b98a610800000000000000
+      internalID: 1632725881280823895
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_6
+      name: hammer_6
       rect:
         serializedVersion: 2
-        x: 1620
-        y: 72
-        width: 8
-        height: 14
+        x: 768
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -334,20 +472,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: babce288938dd1c90800000000000000
-      internalID: -7197358887858680917
+      spriteID: 0926ec76654257500800000000000000
+      internalID: 393260495992152720
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_7
+      name: hammer_7
       rect:
         serializedVersion: 2
-        x: 1631
-        y: 81
-        width: 9
-        height: 13
+        x: 896
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -356,20 +494,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95c27be900bed9540800000000000000
-      internalID: 5016423947855932505
+      spriteID: 894edec2540d87dc0800000000000000
+      internalID: -3640931303203937128
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_8
+      name: hammer_8
       rect:
         serializedVersion: 2
-        x: 18
-        y: 3
-        width: 53
-        height: 71
+        x: 1024
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -378,20 +516,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bc5b4a93de37eff70800000000000000
-      internalID: 9222936549612893643
+      spriteID: 2b16ec427fd9f2780800000000000000
+      internalID: -8705565869883891278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_9
+      name: hammer_9
       rect:
         serializedVersion: 2
-        x: 119
-        y: 3
-        width: 56
-        height: 65
+        x: 1152
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -400,20 +538,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5157b363a40985b80800000000000000
-      internalID: -8405810056075184875
+      spriteID: ed09f023867a2eb70800000000000000
+      internalID: 8926881477360062686
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_10
+      name: hammer_10
       rect:
         serializedVersion: 2
-        x: 319
-        y: 3
-        width: 56
-        height: 64
+        x: 1280
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -422,20 +560,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f4097f3ede69ee30800000000000000
-      internalID: 4533276400751805687
+      spriteID: 4cb8b1b10ae0498f0800000000000000
+      internalID: -534786374937900092
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_11
+      name: hammer_11
       rect:
         serializedVersion: 2
-        x: 420
-        y: 3
-        width: 52
-        height: 64
+        x: 1408
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -444,20 +582,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3edb28f4657a10b00800000000000000
-      internalID: 793098998536912355
+      spriteID: f9ce274c0df433e30800000000000000
+      internalID: 4482013812231433375
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_12
+      name: hammer_12
       rect:
         serializedVersion: 2
-        x: 518
-        y: 2
-        width: 61
-        height: 65
+        x: 1536
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -466,20 +604,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5175058ecb57476c0800000000000000
-      internalID: -4146559902689503467
+      spriteID: 3eccce0c14754e050800000000000000
+      internalID: 5828879757645499619
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_13
+      name: hammer_13
       rect:
         serializedVersion: 2
-        x: 619
-        y: 2
-        width: 55
-        height: 65
+        x: 1664
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -488,20 +626,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a810670864875fdf0800000000000000
-      internalID: -147079168621411958
+      spriteID: a42ef06756f75b170800000000000000
+      internalID: 8193595170819662410
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_14
+      name: hammer_14
       rect:
         serializedVersion: 2
-        x: 722
-        y: 2
-        width: 58
-        height: 67
+        x: 1792
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -510,20 +648,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b5f83ff2e7115a4b0800000000000000
-      internalID: -5429914542057222309
+      spriteID: d6ad1a67d8a198cb0800000000000000
+      internalID: -4861325127886710163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_15
+      name: hammer_15
       rect:
         serializedVersion: 2
-        x: 819
-        y: 2
-        width: 61
-        height: 73
+        x: 1920
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -532,20 +670,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 10b1e426ea2713870800000000000000
-      internalID: 8660829651709336321
+      spriteID: 142ba42301ce1a430800000000000000
+      internalID: 3792571915530056257
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_16
+      name: hammer_16
       rect:
         serializedVersion: 2
-        x: 914
-        y: 4
-        width: 66
-        height: 79
+        x: 2048
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -554,20 +692,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ab7ce770ff5fffd30800000000000000
-      internalID: 4467559831066036154
+      spriteID: fa0e5e927c16bd980800000000000000
+      internalID: -8513103162584473425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_17
+      name: hammer_17
       rect:
         serializedVersion: 2
-        x: 1011
-        y: 6
-        width: 73
-        height: 75
+        x: 2176
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -576,20 +714,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 69a9c36dd8d0a6c70800000000000000
-      internalID: 8964992911070239382
+      spriteID: a2c501f6ba6f04d50800000000000000
+      internalID: 6719641860199963690
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_18
+      name: hammer_18
       rect:
         serializedVersion: 2
-        x: 1168
-        y: 64
-        width: 6
-        height: 11
+        x: 2304
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -598,20 +736,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8284781b36fc4f990800000000000000
-      internalID: -7353024264502032344
+      spriteID: 85d91424941f831d0800000000000000
+      internalID: -3370679024140313256
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_19
+      name: hammer_19
       rect:
         serializedVersion: 2
-        x: 1269
-        y: 67
-        width: 6
-        height: 7
+        x: 2432
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -620,20 +758,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2eb86cbd6699ae420800000000000000
-      internalID: 2660107196968635362
+      spriteID: 949eeeec059d4e3c0800000000000000
+      internalID: -4331098000531199671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_20
+      name: hammer_20
       rect:
         serializedVersion: 2
-        x: 1507
-        y: 58
-        width: 11
-        height: 13
+        x: 2560
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -642,20 +780,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c3507009b1442a4d0800000000000000
-      internalID: -3124860306270517956
+      spriteID: 2bdb8dff878ac8d60800000000000000
+      internalID: 7893869484515573170
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_21
+      name: hammer_21
       rect:
         serializedVersion: 2
-        x: 1610
-        y: 63
-        width: 6
-        height: 10
+        x: 2688
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -664,20 +802,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d56a2feacd129ad90800000000000000
-      internalID: -7086095306979105187
+      spriteID: ca96146cc6c4add90800000000000000
+      internalID: -7072256234765588052
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: smoke_22
+      name: hammer_22
       rect:
         serializedVersion: 2
-        x: 218
-        y: 3
-        width: 56
-        height: 63
+        x: 2816
+        y: 0
+        width: 128
+        height: 164
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -686,162 +824,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c75ab691b7fbe85f0800000000000000
-      internalID: -752453552295926404
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_23
-      rect:
-        serializedVersion: 2
-        x: 878
-        y: 35
-        width: 8
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4371fb24be63e8320800000000000000
-      internalID: 2562045622085424948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_24
-      rect:
-        serializedVersion: 2
-        x: 1439
-        y: 44
-        width: 7
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4c7d045734c57c970800000000000000
-      internalID: 8775083843754448836
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_25
-      rect:
-        serializedVersion: 2
-        x: 1513
-        y: 41
-        width: 7
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b61b3feaf94e8a960800000000000000
-      internalID: 7613586544555962731
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_26
-      rect:
-        serializedVersion: 2
-        x: 672
-        y: 22
-        width: 11
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b89d6b24598373e10800000000000000
-      internalID: 2177271158577486219
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_27
-      rect:
-        serializedVersion: 2
-        x: 814
-        y: 20
-        width: 8
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8715839a25c0adf80800000000000000
-      internalID: -8081133032197041800
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_28
-      rect:
-        serializedVersion: 2
-        x: 1222
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0ded52c3b51643a50800000000000000
-      internalID: 6499927206681501392
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: smoke_29
-      rect:
-        serializedVersion: 2
-        x: 1122
-        y: 7
-        width: 10
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b8d509ed97cf8ca00800000000000000
-      internalID: 777148536076656011
+      spriteID: 6c5554fdecf83d760800000000000000
+      internalID: 7481481524664423878
       vertices: []
       indices: 
       edges: []
@@ -850,7 +834,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c7bf25f746728874c9b81cb51f0715fb
     internalID: 0
     vertices: []
     indices: 
@@ -860,36 +844,29 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      smoke_0: -9087577266532155448
-      smoke_1: -1106684591460216115
-      smoke_10: 4533276400751805687
-      smoke_11: 793098998536912355
-      smoke_12: -4146559902689503467
-      smoke_13: -147079168621411958
-      smoke_14: -5429914542057222309
-      smoke_15: 8660829651709336321
-      smoke_16: 4467559831066036154
-      smoke_17: 8964992911070239382
-      smoke_18: -7353024264502032344
-      smoke_19: 2660107196968635362
-      smoke_2: -5983078005227543334
-      smoke_20: -3124860306270517956
-      smoke_21: -7086095306979105187
-      smoke_22: -752453552295926404
-      smoke_23: 2562045622085424948
-      smoke_24: 8775083843754448836
-      smoke_25: 7613586544555962731
-      smoke_26: 2177271158577486219
-      smoke_27: -8081133032197041800
-      smoke_28: 6499927206681501392
-      smoke_29: 777148536076656011
-      smoke_3: 7818055727696256662
-      smoke_4: 8013849657407384527
-      smoke_5: -5181280606106272151
-      smoke_6: -7197358887858680917
-      smoke_7: 5016423947855932505
-      smoke_8: 9222936549612893643
-      smoke_9: -8405810056075184875
+      hammer_0: 4301844918096825189
+      hammer_1: -6030043224269349317
+      hammer_10: -534786374937900092
+      hammer_11: 4482013812231433375
+      hammer_12: 5828879757645499619
+      hammer_13: 8193595170819662410
+      hammer_14: -4861325127886710163
+      hammer_15: 3792571915530056257
+      hammer_16: -8513103162584473425
+      hammer_17: 6719641860199963690
+      hammer_18: -3370679024140313256
+      hammer_19: -4331098000531199671
+      hammer_2: -8258728375015105676
+      hammer_20: 7893869484515573170
+      hammer_21: -7072256234765588052
+      hammer_22: 7481481524664423878
+      hammer_3: -1159298483449069950
+      hammer_4: 1784401183296663280
+      hammer_5: 1632725881280823895
+      hammer_6: 393260495992152720
+      hammer_7: -3640931303203937128
+      hammer_8: -8705565869883891278
+      hammer_9: 8926881477360062686
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
