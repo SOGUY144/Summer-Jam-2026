@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac8dff71b3d5f164aa50144af9cc8fcd, type: 3}
   m_Name: Old Man Dialogue
   m_EditorClassIdentifier: 
-  npcName: 
-  npcPortrait: {fileID: 0}
-  dialogueLines: []
-  typingSpeed: 0
+  npcName: "\u0E44\u0E2D\u0E49\u0E21\u0E32\u0E25\u0E34\u0E40\u0E40\u0E21\u0E07"
+  npcPortrait: {fileID: -1083859277060995159, guid: caf9ef161f63c9d42a9b30271a5a2824, type: 3}
+  dialogueLines:
+  - "\u0E19\u0E32\u0E22\u0E0A\u0E37\u0E48\u0E2D\u0E44\u0E23\u0E2B\u0E23\u0E2D\u0E21\u0E32\u0E17\u0E35\u0E48\u0E19\u0E35\u0E48\u0E17\u0E33\u0E44\u0E21"
+  - "\u0E40\u0E40\u0E21\u0E48\u0E21\u0E36\u0E07\u0E2D\u0E30\u0E2D\u0E35\u0E2A\u0E31\u0E2A"
+  autoProgressLines: 0101
+  autoProgressDelay: 0.5
+  typingSpeed: 0.05
   voiceSound: {fileID: 0}
   voicePitch: 1
-  autoProgressLines: 
