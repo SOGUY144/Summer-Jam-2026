@@ -1,12 +1,11 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-
 
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 8f;
     public float jumpForce = 12f;
-    public float dashSpeed = 20f;
+    public float dashSpeed = 25f; // 👈 ปรับให้เหลือสัก 20-30 พอครับ
     private Rigidbody2D rb;
     private bool isGrounded;
     public Transform groundCheck;
@@ -20,10 +19,12 @@ public class PlayerController : MonoBehaviour
     // Tracks current facing direction: true = facing right, false = facing left
     private bool facingRight = true;
 
+    // 👇 เพิ่มตัวแปรเช็คสถานะ Dash
+    private bool isDashing = false;
 
-    void Start() 
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         // Initialize facing direction from current rotation (tolerant to small floating errors)
@@ -32,6 +33,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        // 👇 ถ้าระบบกำลัง Dash อยู่ ให้ข้ามการรับคำสั่งเดินและกระโดดไปเลย (กัน Update มากวน)
+        if (isDashing) return;
+
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
         IsWalking = moveInput != 0;
@@ -42,12 +46,13 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
+        // สามารถกด Dash ได้เมื่อไม่ได้ Dash อยู่
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             animator.SetTrigger("Dash");
             StartCoroutine(Dash());
-
         }
+
         Flip();
         UpdateAnimation();
     }
@@ -74,8 +79,11 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetBool("IsWalking", IsWalking);
     }
+
     IEnumerator Dash()
     {
+        isDashing = true; // ล็อกสถานะไว้ Update จะไม่มาแทรกแซงความเร็ว
+
         float gravity = rb.gravityScale;
         rb.gravityScale = 0;
 
@@ -83,9 +91,18 @@ public class PlayerController : MonoBehaviour
         float dashYrotation = facingRight ? 0f : -180f;
         GameObject newObject = Instantiate(DashFx, transform.position, Quaternion.Euler(0f, dashYrotation, 0f));
         newObject.transform.parent = transform;
-        rb.linearVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * dashSpeed, 0);
+
+        // 👇 เช็คว่าจะพุ่งไปทางไหนจากตัวแปร facingRight แทน (1 คือขวา, -1 คือซ้าย)
+        float dashDirection = facingRight ? 1f : -1f;
+
+        // สั่งพุ่ง!
+        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0);
+
         yield return new WaitForSeconds(0.2f);
+
         rb.gravityScale = gravity;
         Destroy(newObject);
+
+        isDashing = false; // ปลดล็อกสถานะกลับมาเดินได้ปกติ
     }
 }
