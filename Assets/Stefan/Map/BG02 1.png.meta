@@ -484,9 +484,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1600
-        y: 576
+        y: 604
         width: 64
-        height: 64
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1760,7 +1760,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1249
-        y: 448
+        y: 449
         width: 14
         height: 64
       alignment: 0
@@ -2463,12 +2463,12 @@ TextureImporter:
       name: BG02 1_110
       rect:
         serializedVersion: 2
-        x: 1216
+        x: 1249
         y: 384
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 30
+        height: 11
+      alignment: 9
+      pivot: {x: 0.32280117, y: 0.10421944}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3167,9 +3167,9 @@ TextureImporter:
       name: BG02 1_143
       rect:
         serializedVersion: 2
-        x: 1216
+        x: 1241
         y: 320
-        width: 64
+        width: 39
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
