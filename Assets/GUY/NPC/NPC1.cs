@@ -18,7 +18,7 @@ public class NPC1 : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        // When the player presses 'F', trigger interaction
+        
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (isPlayerInRange || isDialogueActive)
@@ -61,7 +61,7 @@ public class NPC1 : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // If no dialogue data or the game is paused and no dialogue is active
+        
         if (dialogueData == null || (PauseController.IsGamePaused && !isDialogueActive))
             return;
 
