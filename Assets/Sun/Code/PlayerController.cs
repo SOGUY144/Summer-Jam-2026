@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public bool IsWalking = false;
     public bool IsJumping = false;
+    public bool IsFalling = false;
     public GameObject DashFx;
     public SpriteRenderer spriteRenderer;
 
     // Tracks current facing direction: true = facing right, false = facing left
     private bool facingRight = true;
+
+    // small vertical velocity threshold to avoid flicker
+    private const float verticalThreshold = 0.1f;
 
 
     void Start() 
@@ -28,6 +32,14 @@ public class PlayerController : MonoBehaviour
 
         // Initialize facing direction from current rotation (tolerant to small floating errors)
         facingRight = Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, 0f)) < 1f;
+
+        // initialize animator parameters to a consistent state if animator is assigned
+        if (animator != null)
+        {
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsFalling", false);
+        }
     }
 
     void Update()
@@ -42,12 +54,17 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
+        // Update jump / fall states based on vertical velocity and grounded state
+        float vy = rb.linearVelocity.y;
+        IsJumping = !isGrounded && vy > verticalThreshold;
+        IsFalling = !isGrounded && vy < -verticalThreshold;
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            animator.SetTrigger("Dash");
+            if (animator != null) animator.SetTrigger("Dash");
             StartCoroutine(Dash());
-
         }
+
         Flip();
         UpdateAnimation();
     }
@@ -72,7 +89,11 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateAnimation()
     {
+        if (animator == null) return;
+
         animator.SetBool("IsWalking", IsWalking);
+        animator.SetBool("IsJumping", IsJumping);
+        animator.SetBool("IsFalling", IsFalling);
     }
     IEnumerator Dash()
     {

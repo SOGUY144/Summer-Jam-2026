@@ -1,177 +1,206 @@
+using System.Collections;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossStateMachine : MonoBehaviour
 {
+    public enum BossState
+    {
+        ChooseSkill,
+        Laser,
+        Smoke,
+        Plasma
+    }
+
     [Header("References")]
+    public Animator bodyAnim;
+    public Animator leftHandAnim;
+    public Animator rightHandAnim;
     public Transform player;
-    public Animator bodyAnimator;
-    public Animator leftHandAnimator;
-    public Animator rightHandAnimator;
 
-    [Header("Sprite Renderers for Flipping")]
-    public SpriteRenderer bodySprite;
-    public SpriteRenderer leftHandSprite;
-    public SpriteRenderer rightHandSprite;
+    [Header("Laser")]
+    public Transform laserPoint;
+    public LineRenderer laser;
 
-    [Header("Parts Objects")]
-    public GameObject bodyObj;
-    public GameObject leftHandObj;
-    public GameObject rightHandObj;
+    [Header("Sweep Laser Setting")]
+    public float laserChargeTime = 1f;
+    public float laserDuration = 3f;
+    public float laserDistance = 15f;
 
-    [Header("Assign Positions (Local)")]
-    [Tooltip("ตำแหน่ง Body เมื่อบสหันขวา (2D)")]
-    public Vector2 bodyTargetLocalPos;
-    [Tooltip("ตำแหน่งมือซ้ายเมื่อบสหันขวา (2D)")]
-    public Vector2 leftHandTargetLocalPos;
-    [Tooltip("ตำแหน่งมือขวาเมื่อบสหันขวา (2D)")]
-    public Vector2 rightHandTargetLocalPos;
+    public float sweepStartAngle = -60f;
+    public float sweepEndAngle = 60f;
 
-    [Header("Fire Points")]
-    public Transform laserFirePoint;
-    public Transform leftHandFirePoint;
-    public Transform rightHandFirePoint;
-
-    [Header("Skill Settings")]
-    public LineRenderer laserRenderer;
+    [Header("Smoke")]
     public GameObject smokeObject;
+    public float smokeDuration = 5f;
+
+    [Header("Plasma")]
     public GameObject plasmaPrefab;
-    public float projectileSpeed = 10f;
-    public int plasmaMinRepetitions = 3;
-    public int plasmaMaxRepetitions = 5;
+    public Transform leftFirePoint;
+    public Transform rightFirePoint;
+    public float plasmaSpeed = 10f;
+    public float plasmaChargeTime = 0.35f;
+    public int plasmaMin = 3;
+    public int plasmaMax = 5;
 
-    [Header("Movement Settings")]
-    public float moveSpeed = 2f;
-    public float moveRange = 5f;
-    private Vector2 startPosition; // เปลี่ยนเป็น Vector2
-    private bool movingRight = true;
+    [Header("Timing")]
+    public float attackInterval = 2f;
 
-    private IBossState currentState;
-
-    public IdleState idleState = new IdleState();
-    public LaserState laserState = new LaserState();
-    public SmokeState smokeState = new SmokeState();
-    public PlasmaState plasmaState = new PlasmaState();
+    private BossState currentState;
+    private bool isAttacking;
 
     void Start()
     {
-        startPosition = transform.position;
-
-        if (laserRenderer) laserRenderer.enabled = false;
-        if (smokeObject) smokeObject.SetActive(false);
-
-        ChangeState(idleState);
+        laser.enabled = false;
+        smokeObject.SetActive(false);
+        StartCoroutine(AttackLoop());
     }
 
-    void Update()
+    IEnumerator AttackLoop()
     {
-        if (currentState != null)
-            currentState.UpdateState(this);
-
-        HandleFlip();
-        HandleMovementPattern();
-    }
-
-    private void HandleMovementPattern()
-    {
-        float targetX = movingRight ? startPosition.x + moveRange : startPosition.x - moveRange;
-        Vector2 targetPos = new Vector2(targetX, startPosition.y);
-
-        // ใช้ Vector2.MoveTowards สำหรับ 2D
-        transform.position = Vector2.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, targetPos) < 0.1f)
+        while (true)
         {
-            movingRight = !movingRight;
-        }
-    }
-
-    private void HandleFlip()
-    {
-        if (player == null) return;
-
-        bool isPlayerOnRight = player.position.x > transform.position.x;
-
-        // 1. หันหน้า Sprite
-        if (bodySprite) bodySprite.flipX = isPlayerOnRight;
-        if (leftHandSprite) leftHandSprite.flipX = isPlayerOnRight;
-        if (rightHandSprite) rightHandSprite.flipX = isPlayerOnRight;
-
-        // 2. กำหนดตำแหน่งส่วนประกอบต่างๆ ตามที่ Assign ไว้ใน Inspector
-        // ใช้ xMult เพื่อสลับฝั่งซ้าย-ขวาตามทิศทางที่บสหันหน้าไป
-        float xMult = isPlayerOnRight ? 1f : -1f;
-
-        if (bodyObj)
-        {
-            bodyObj.transform.localPosition = new Vector3(
-                bodyTargetLocalPos.x * xMult,
-                bodyTargetLocalPos.y,
-                bodyObj.transform.localPosition.z // รักษาค่า Z ไว้เผื่อจัด Sorting Order
-            );
-        }
-
-        if (leftHandObj)
-        {
-            leftHandObj.transform.localPosition = new Vector3(
-                leftHandTargetLocalPos.x * xMult,
-                leftHandTargetLocalPos.y,
-                leftHandObj.transform.localPosition.z
-            );
-        }
-
-        if (rightHandObj)
-        {
-            rightHandObj.transform.localPosition = new Vector3(
-                rightHandTargetLocalPos.x * xMult,
-                rightHandTargetLocalPos.y,
-                rightHandObj.transform.localPosition.z
-            );
-        }
-    }
-
-    public void ShootPlasma(Transform firePoint)
-    {
-        if (plasmaPrefab && player != null && firePoint != null)
-        {
-            GameObject projectile = Instantiate(plasmaPrefab, firePoint.position, Quaternion.identity);
-            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-
-            if (rb != null)
+            if (!isAttacking)
             {
-                Vector2 direction = (player.position - firePoint.position).normalized;
-                rb.velocity = direction * projectileSpeed;
-
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                ChangeState(BossState.ChooseSkill);
             }
+
+            yield return new WaitForSeconds(attackInterval);
         }
     }
 
-    public void ChangeState(IBossState newState)
+    void ChangeState(BossState newState)
     {
-        if (currentState != null) currentState.ExitState(this);
         currentState = newState;
-        currentState.EnterState(this);
+        Debug.Log("Boss State ? " + newState);
+
+        switch (newState)
+        {
+            case BossState.ChooseSkill:
+                ChooseSkill();
+                break;
+
+            case BossState.Laser:
+                StartCoroutine(LaserState());
+                break;
+
+            case BossState.Smoke:
+                StartCoroutine(SmokeState());
+                break;
+
+            case BossState.Plasma:
+                StartCoroutine(PlasmaState());
+                break;
+        }
     }
 
-    // อัปเดตการหาตำแหน่งให้ใช้ Vector2 เพื่อข้ามการคำนวณแกน Z (ความลึก) ที่ไม่จำเป็น
-    public Animator GetNearestHandAnimator()
+    void ChooseSkill()
     {
-        float distLeft = Vector2.Distance(player.position, leftHandObj.transform.position);
-        float distRight = Vector2.Distance(player.position, rightHandObj.transform.position);
-        return distLeft < distRight ? leftHandAnimator : rightHandAnimator;
+        int rand = Random.Range(0, 3);
+
+        if (rand == 0) ChangeState(BossState.Laser);
+        else if (rand == 1) ChangeState(BossState.Smoke);
+        else ChangeState(BossState.Plasma);
     }
 
-    public Transform GetNearestHandFirePoint()
+    // ================= SWEEP LASER =================
+    IEnumerator LaserState()
     {
-        float distLeft = Vector2.Distance(player.position, leftHandObj.transform.position);
-        float distRight = Vector2.Distance(player.position, rightHandObj.transform.position);
-        return distLeft < distRight ? leftHandFirePoint : rightHandFirePoint;
+        isAttacking = true;
+
+        Debug.Log("Laser: Charging...");
+        bodyAnim.SetTrigger("BossCharge");
+
+        yield return new WaitForSeconds(laserChargeTime);
+
+        Debug.Log("Laser: SWEEP FIRE!");
+        laser.enabled = true;
+
+        float timer = 0f;
+
+        while (timer < laserDuration)
+        {
+            float t = timer / laserDuration;
+
+            // ?? คำนวณมุมจาก start ? end
+            float angle = Mathf.Lerp(sweepStartAngle, sweepEndAngle, t);
+
+            // ?? แปลงเป็น direction
+            Vector2 dir = new Vector2(
+                Mathf.Cos(angle * Mathf.Deg2Rad),
+                Mathf.Sin(angle * Mathf.Deg2Rad)
+            );
+
+            Vector3 start = laserPoint.position;
+            Vector3 end = start + (Vector3)dir * laserDistance;
+
+            laser.SetPosition(0, start);
+            laser.SetPosition(1, end);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        laser.enabled = false;
+        Debug.Log("Laser: End");
+
+        isAttacking = false;
     }
 
-    public GameObject GetNearestHandObject()
+    // ================= SMOKE =================
+    IEnumerator SmokeState()
     {
-        float distLeft = Vector2.Distance(player.position, leftHandObj.transform.position);
-        float distRight = Vector2.Distance(player.position, rightHandObj.transform.position);
-        return distLeft < distRight ? leftHandObj : rightHandObj;
+        isAttacking = true;
+
+        Animator hand = GetNearestHand();
+        hand.SetTrigger("Smoke_Relese");
+
+        smokeObject.SetActive(true);
+
+        yield return new WaitForSeconds(smokeDuration);
+
+        smokeObject.SetActive(false);
+
+        isAttacking = false;
+    }
+
+    // ================= PLASMA =================
+    IEnumerator PlasmaState()
+    {
+        isAttacking = true;
+
+        int repeat = Random.Range(plasmaMin, plasmaMax + 1);
+
+        for (int i = 0; i < repeat; i++)
+        {
+            Animator hand = GetNearestHand();
+
+            yield return new WaitForSeconds(plasmaChargeTime);
+
+            hand.SetTrigger("Plasma");
+
+            Transform firePoint = (hand == leftHandAnim) ? leftFirePoint : rightFirePoint;
+
+            GameObject plasma = Instantiate(plasmaPrefab, firePoint.position, Quaternion.identity);
+
+            Vector2 targetPos = player.position + new Vector3(0, 0.5f, 0);
+            Vector2 dir = (targetPos - (Vector2)firePoint.position).normalized;
+
+            Rigidbody2D rb = plasma.GetComponent<Rigidbody2D>();
+            if (rb != null)
+                rb.velocity = dir * plasmaSpeed;
+
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        isAttacking = false;
+    }
+
+    // ================= HAND SELECT =================
+    Animator GetNearestHand()
+    {
+        float distL = Vector2.Distance(player.position, leftHandAnim.transform.position);
+        float distR = Vector2.Distance(player.position, rightHandAnim.transform.position);
+
+        return (distL < distR) ? leftHandAnim : rightHandAnim;
     }
 }
