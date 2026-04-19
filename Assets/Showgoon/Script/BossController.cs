@@ -252,7 +252,7 @@ public class BossStateMachine : MonoBehaviour
             Vector2 dir = (targetPos - (Vector2)firePoint.position).normalized;
 
             Rigidbody2D rb = plasma.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.velocity = dir * plasmaSpeed;
+            if (rb != null) rb.linearVelocity = dir * plasmaSpeed;
 
             yield return new WaitForSeconds(0.5f);
         }
