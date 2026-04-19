@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class HydrationSystem : MonoBehaviour
 {
@@ -206,19 +207,82 @@ public class HydrationSystem : MonoBehaviour
     }
     private void Die()
     {
-        if (!gameObject.activeSelf) return; // ถ้าหายไปแล้วไม่ต้องรันซ้ำ
+        Debug.Log("💀 ผู้เล่นตายแล้ว! กำลังกลับจุดเซฟ...");
 
-        Debug.Log("💀 ผู้เล่นตายแล้ว!");
+        // เรียกใช้ Coroutine เพื่อให้มันหน่วงเวลาได้
+        StartCoroutine(RespawnRoutine());
+    }
 
-        // ปิดการมองเห็น
-        if (GetComponent<SpriteRenderer>() != null)
-            GetComponent<SpriteRenderer>().enabled = false;
+    IEnumerator RespawnRoutine()
+    {
+        // ... (1. ปิดการมองเห็นและการควบคุมชั่วคราว - เหมือนเดิม)
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+        if (GetComponent<WeaponAim>() != null) GetComponent<WeaponAim>().enabled = false; // ปิดตอนตาย
+        if (GetComponent<PlayerController>() != null)
+            GetComponent<PlayerController>().enabled = false;
 
-        // ปิดการชน (กันศัตรูมาชนซ้ำ)
-        if (GetComponent<Collider2D>() != null)
-            GetComponent<Collider2D>().enabled = false;
+        // 👇 --- เริ่มต้นแก้ตรงนี้ครับ --- 👇
 
-        // หรือจะใช้คำสั่งเดิมที่ซันต้องการ (หายไปทั้ง Object)
-        gameObject.SetActive(false);
+        // 1.5 หยุดแรงฟิสิกส์ทั้งหมดชั่วคราว (กันตกโลก)
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb != null)
+        {
+            // หยุดความเร็วเดิมทั้งหมด (กันกระสุนที่โดนก่อนตายส่งแรงดันต่อ)
+            rb.linearVelocity = Vector2.zero;
+            // ปิดแรงโน้มถ่วง (แกล้งทำเป็นลอยตัว)
+            rb.gravityScale = 0f;
+            // ล็อกตำแหน่งไว้ ไม่ให้ขยับ
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+        // ------------------------------------
+
+        // (2. หน่วงเวลาตอนตาย - เหมือนเดิม)
+        yield return new WaitForSeconds(1.5f);
+
+        // 3. ย้ายตำแหน่งไปจุดเซฟล่าสุด
+        if (PlayerPrefs.HasKey("SafeX"))
+        {
+            float x = PlayerPrefs.GetFloat("SafeX");
+            float y = PlayerPrefs.GetFloat("SafeY");
+            transform.position = new Vector2(x, y);
+            Debug.Log("วาร์ปกลับจุดเซฟที่: " + x + ", " + y);
+        }
+        else
+        {
+            transform.position = new Vector2(0, 0);
+        }
+
+        // 3.5 เติมเลือดและลดความร้อน (เหมือนเดิม)
+        currentHP = maxHP;
+        currentHydroric = 0f;
+        isOverheated = false;
+
+        // 👇 --- แก้ตรงนี้ต่อครับ --- 👇
+
+        // 4. รอสัก 2 เฟรมเพื่อให้ Unity โหลดพื้นเสร็จ (สำคัญมาก!)
+        yield return new WaitForEndOfFrame(); // รอจนจบเฟรมนี้
+        yield return new WaitForEndOfFrame(); // รอจนจบเฟรมหน้า (เพื่อให้ Collider ของพื้นทำงานเสร็จ)
+
+        // 5. ปล่อยฟิสิกส์ให้กลับมาทำงาน (คืนชีพ)
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<Collider2D>().enabled = true;
+
+        if (GetComponent<PlayerController>() != null)
+            GetComponent<PlayerController>().enabled = true;
+        if (GetComponent<WeaponAim>() != null) GetComponent<WeaponAim>().enabled = true;
+        // 5.5 คืนค่าฟิสิกส์เดิมทั้งหมด
+        if (rb != null)
+        {
+            // ปลดล็อกตำแหน่ง
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation; // คืนค่า freeze แค่ Rotation Z เหมือนตอนแรก
+            // คืนค่าแรงโน้มถ่วง (ไปดูที่ Rigidbody ใน Inspector ว่าตั้งไว้เท่าไหร่ เช่น 1 หรือ 2)
+            rb.gravityScale = 1f; // <--- ปรับตรงนี้ให้ตรงกับที่ตั้งไว้ใน Inspector ของ Player นะครับ
+        }
+
+        // ^^^ --- จบการแก้ตรงนี้ครับ --- ^^^
+
+        Debug.Log("✨ คืนชีพสำเร็จ! (ปลอดภัยไม่ตกโลก)");
     }
 }
