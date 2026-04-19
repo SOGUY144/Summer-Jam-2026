@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - HotZone
+  - Enemy
   layers:
   - Default
   - TransparentFX

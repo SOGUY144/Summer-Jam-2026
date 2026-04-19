@@ -10,6 +10,7 @@ public class NPC1 : MonoBehaviour, IInteractable
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
+    public AudioSource audioSource;
 
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
@@ -17,7 +18,7 @@ public class NPC1 : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        // When the player presses 'F', trigger interaction
+        
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (isPlayerInRange || isDialogueActive)
@@ -60,7 +61,7 @@ public class NPC1 : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        // If no dialogue data or the game is paused and no dialogue is active
+        
         if (dialogueData == null || (PauseController.IsGamePaused && !isDialogueActive))
             return;
 
@@ -114,6 +115,15 @@ public class NPC1 : MonoBehaviour, IInteractable
         foreach(char letter in dialogueData.dialogueLines[dialogueIndex])
         {
             dialogueText.text += letter;
+            
+            // Play Animal Crossing style voice bleeps (ignore spaces)
+            if (letter != ' ' && dialogueData.voiceSound != null && audioSource != null)
+            {
+                audioSource.Stop(); // Stop previous letter sound from overlapping and getting too loud
+                audioSource.pitch = dialogueData.voicePitch + Random.Range(-0.05f, 0.05f);
+                audioSource.PlayOneShot(dialogueData.voiceSound);
+            }
+
             yield return new WaitForSecondsRealtime(dialogueData.typingSpeed);
 
         }

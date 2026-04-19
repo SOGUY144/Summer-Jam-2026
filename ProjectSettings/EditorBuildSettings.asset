@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Stefan/Mainmenu.unity
     guid: d7bf629802b5b9b49b11c6995e8b7b22
   - enabled: 1
-    path: Assets/Stefan/Map/Stefan.unity
+    path: Assets/Stefan/Map/Pipe.unity
     guid: 2b4d6a3e95934724c8015b5262d96232
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

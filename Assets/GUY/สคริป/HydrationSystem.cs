@@ -6,7 +6,7 @@ public class HydrationSystem : MonoBehaviour
     [Header("Stats")]
     public float maxHP = 100f;
     public float currentHP;
-    
+
     public float maxHydroric = 100f; // ความร้อนสูงสุด
     public float currentHydroric;
 
@@ -78,7 +78,7 @@ public class HydrationSystem : MonoBehaviour
     {
         // เช็คว่าเปิดโล่อยู่หรือไม่ เพื่อคำนวณ rate
         float currentRate = isShieldActive ? shieldedHeatIncreaseRate : heatIncreaseRate;
-        
+
         currentHydroric += currentRate * Time.deltaTime;
         currentHydroric = Mathf.Clamp(currentHydroric, 0f, maxHydroric);
 
@@ -111,7 +111,13 @@ public class HydrationSystem : MonoBehaviour
     private void ApplyDamage()
     {
         currentHP -= overheatDamageRate * Time.deltaTime;
-        // สามารถเพิ่มโค้ดตรวจสอบการตาย (Death) ตรงนี้ได้ เช่น if(currentHP <= 0) Die();
+
+        // 👇 เพิ่มเช็คตรงนี้ด้วยครับ ไม่งั้นตายเพราะความร้อนจะไม่หายไป
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            Die();
+        }
     }
 
     // ฟังก์ชันอัปเดตแถบ UI และโชว์โล่
@@ -122,7 +128,7 @@ public class HydrationSystem : MonoBehaviour
         if (hydroricSlider != null)
         {
             // ทำงานได้ดีถ้าตั้งค่า Slider จาก 0 ถึง 1 ใน Editor หรือจะใช้ value ตรงๆ ก็ได้
-            hydroricSlider.value = fillRatio; 
+            hydroricSlider.value = fillRatio;
         }
 
         if (hydroricFillImage != null)
@@ -158,7 +164,7 @@ public class HydrationSystem : MonoBehaviour
         currentHydroric -= sodaDecreaseAmount;
         currentHydroric = Mathf.Clamp(currentHydroric, 0f, maxHydroric);
         Debug.Log("ดื่มโซดา! ลดความร้อนไป " + sodaDecreaseAmount);
-        
+
         // ตรวจสอบเผื่อว่าโซดาลดความร้อนจนถึง 0 ให้หลุดจากสถานะ Overheat เลย
         if (isOverheated && currentHydroric <= 0)
         {
@@ -185,5 +191,34 @@ public class HydrationSystem : MonoBehaviour
             isInHotZone = false;
             Debug.Log("ออกจาก Hot Zone แล้ว!");
         }
+    }
+    public void TakeDamage(float damageAmount)
+    {
+        currentHP -= damageAmount;
+        Debug.Log("💥 ผู้เล่นโดนโจมตี! เสียเลือด: " + damageAmount + " | เลือดเหลือ: " + currentHP);
+
+        // เช็คการตาย
+        if (currentHP <= 0)
+        {
+            currentHP = 0;
+            Die();
+        }
+    }
+    private void Die()
+    {
+        if (!gameObject.activeSelf) return; // ถ้าหายไปแล้วไม่ต้องรันซ้ำ
+
+        Debug.Log("💀 ผู้เล่นตายแล้ว!");
+
+        // ปิดการมองเห็น
+        if (GetComponent<SpriteRenderer>() != null)
+            GetComponent<SpriteRenderer>().enabled = false;
+
+        // ปิดการชน (กันศัตรูมาชนซ้ำ)
+        if (GetComponent<Collider2D>() != null)
+            GetComponent<Collider2D>().enabled = false;
+
+        // หรือจะใช้คำสั่งเดิมที่ซันต้องการ (หายไปทั้ง Object)
+        gameObject.SetActive(false);
     }
 }
