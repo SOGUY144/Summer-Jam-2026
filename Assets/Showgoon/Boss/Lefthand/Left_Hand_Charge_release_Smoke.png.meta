@@ -1,0 +1,295 @@
+fileFormatVersion: 2
+guid: 40e199a7334a23d4a8df7ae13a03d25a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8587242316697371755
+    second: Left_Hand_Charge_release_Smoke_0
+  - first:
+      213: 5671614501481690818
+    second: Left_Hand_Charge_release_Smoke_1
+  - first:
+      213: 1616611745935042505
+    second: Left_Hand_Charge_release_Smoke_2
+  - first:
+      213: -5022330199639718449
+    second: Left_Hand_Charge_release_Smoke_3
+  - first:
+      213: -370145819471810583
+    second: Left_Hand_Charge_release_Smoke_4
+  - first:
+      213: -7682521477769407066
+    second: Left_Hand_Charge_release_Smoke_5
+  - first:
+      213: -5745195752436630262
+    second: Left_Hand_Charge_release_Smoke_6
+  - first:
+      213: -1535035239278529446
+    second: Left_Hand_Charge_release_Smoke_7
+  - first:
+      213: -6472661177212367207
+    second: Left_Hand_Charge_release_Smoke_8
+  - first:
+      213: 3296322689611682161
+    second: Left_Hand_Charge_release_Smoke_9
+  - first:
+      213: 6462558027443095652
+    second: Left_Hand_Charge_release_Smoke_10
+  - first:
+      213: 7698690265202555290
+    second: Left_Hand_Charge_release_Smoke_11
+  - first:
+      213: -6546352896035441959
+    second: Left_Hand_Charge_release_Smoke_12
+  - first:
+      213: -4766898909935957680
+    second: Left_Hand_Charge_release_Smoke_13
+  - first:
+      213: 8506125263179942470
+    second: Left_Hand_Charge_release_Smoke_14
+  - first:
+      213: -8595452853607131783
+    second: Left_Hand_Charge_release_Smoke_15
+  - first:
+      213: -5686653919099357519
+    second: Left_Hand_Charge_release_Smoke_16
+  - first:
+      213: 6430646365400529514
+    second: Left_Hand_Charge_release_Smoke_17
+  - first:
+      213: 3862431461228121082
+    second: Left_Hand_Charge_release_Smoke_18
+  - first:
+      213: -3879273076851252572
+    second: Left_Hand_Charge_release_Smoke_19
+  - first:
+      213: 7892427764315593700
+    second: Left_Hand_Charge_release_Smoke_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Left_Hand_Charge_release_Smoke_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59bfc013c9cf3d880800000000000000
+      internalID: -8587242316697371755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Hand_Charge_release_Smoke_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c635cfe65f95be40800000000000000
+      internalID: 5671614501481690818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Hand_Charge_release_Smoke_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c7ae2851db5f6610800000000000000
+      internalID: 1616611745935042505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Hand_Charge_release_Smoke_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc502c9fa491d4ab0800000000000000
+      internalID: -5022330199639718449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Hand_Charge_release_Smoke_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef694b965afcdaf0800000000000000
+      internalID: -370145819471810583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 902070371a7f8384fab73dddf4b043fd
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Left_Hand_Charge_release_Smoke_0: -8587242316697371755
+      Left_Hand_Charge_release_Smoke_1: 5671614501481690818
+      Left_Hand_Charge_release_Smoke_2: 1616611745935042505
+      Left_Hand_Charge_release_Smoke_3: -5022330199639718449
+      Left_Hand_Charge_release_Smoke_4: -370145819471810583
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

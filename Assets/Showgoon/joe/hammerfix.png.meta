@@ -1,0 +1,874 @@
+fileFormatVersion: 2
+guid: 05e04f046fcb86c4f885e5cab672ab90
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -557620713952696625
+    second: hammerfix_0
+  - first:
+      213: 712121382775380082
+    second: hammerfix_1
+  - first:
+      213: 4800225111427748145
+    second: hammerfix_2
+  - first:
+      213: -7104377963997998620
+    second: hammerfix_3
+  - first:
+      213: 2666046144481176609
+    second: hammerfix_4
+  - first:
+      213: -6918710060675989053
+    second: hammerfix_5
+  - first:
+      213: 3463421673427088797
+    second: hammerfix_6
+  - first:
+      213: -4361488639546387892
+    second: hammerfix_7
+  - first:
+      213: -5916940905862815741
+    second: hammerfix_8
+  - first:
+      213: 3057095843791985770
+    second: hammerfix_9
+  - first:
+      213: 3504250355866106366
+    second: hammerfix_10
+  - first:
+      213: 7482274347751950390
+    second: hammerfix_11
+  - first:
+      213: -3133804424860843328
+    second: hammerfix_12
+  - first:
+      213: 5673701997051004289
+    second: hammerfix_13
+  - first:
+      213: 1305165998844686023
+    second: hammerfix_14
+  - first:
+      213: -3837383201637881875
+    second: hammerfix_15
+  - first:
+      213: 7775906899618896651
+    second: hammerfix_16
+  - first:
+      213: -7249896031951098925
+    second: hammerfix_17
+  - first:
+      213: -1359257140267938637
+    second: hammerfix_18
+  - first:
+      213: 6339094833968452843
+    second: hammerfix_19
+  - first:
+      213: 1244875070836235896
+    second: hammerfix_20
+  - first:
+      213: -4279428889912034938
+    second: hammerfix_21
+  - first:
+      213: -7681269484426944241
+    second: hammerfix_22
+  - first:
+      213: 5751165497204508419
+    second: hammerfix_23
+  - first:
+      213: 4936035217740611526
+    second: hammerfix_24
+  - first:
+      213: -3888340372592584439
+    second: hammerfix_25
+  - first:
+      213: 5191030951158988100
+    second: hammerfix_26
+  - first:
+      213: 339911733286484226
+    second: hammerfix_27
+  - first:
+      213: -6867665018930301945
+    second: hammerfix_28
+  - first:
+      213: 3589483872508483999
+    second: hammerfix_29
+  - first:
+      213: -2940937459484766207
+    second: hammerfix_30
+  - first:
+      213: -1925761164518358009
+    second: hammerfix_31
+  - first:
+      213: -5407575566759350748
+    second: hammerfix_32
+  - first:
+      213: -381200479603949971
+    second: hammerfix_33
+  - first:
+      213: -6152731690014378567
+    second: hammerfix_34
+  - first:
+      213: -2773188876742181730
+    second: hammerfix_35
+  - first:
+      213: 8497919349800706134
+    second: hammerfix_36
+  - first:
+      213: -3133702859590380986
+    second: hammerfix_37
+  - first:
+      213: -3738082503672793838
+    second: hammerfix_38
+  - first:
+      213: 1876984210580667529
+    second: hammerfix_39
+  - first:
+      213: -5703701459513327571
+    second: hammerfix_40
+  - first:
+      213: 1999998197246240170
+    second: hammerfix_41
+  - first:
+      213: 1896096650193596004
+    second: hammerfix_42
+  - first:
+      213: -1003588282218230357
+    second: hammerfix_43
+  - first:
+      213: -7182770883291255343
+    second: hammerfix_44
+  - first:
+      213: -6652797945458576903
+    second: hammerfix_45
+  - first:
+      213: -3495999074956117931
+    second: hammerfix_46
+  - first:
+      213: -7076502435861853802
+    second: hammerfix_47
+  - first:
+      213: -7470324436751795543
+    second: hammerfix_48
+  - first:
+      213: -2831124556529652758
+    second: hammerfix_49
+  - first:
+      213: 865388782250819789
+    second: hammerfix_50
+  - first:
+      213: 3146256879719239423
+    second: hammerfix_51
+  - first:
+      213: 5304096162854575117
+    second: hammerfix_52
+  - first:
+      213: 8944911244873963962
+    second: hammerfix_53
+  - first:
+      213: 2920738900148491086
+    second: hammerfix_54
+  - first:
+      213: 2426099963821206859
+    second: hammerfix_55
+  - first:
+      213: 5830875043572556873
+    second: hammerfix_56
+  - first:
+      213: -4268782188218338428
+    second: hammerfix_57
+  - first:
+      213: -287205815153212557
+    second: hammerfix_58
+  - first:
+      213: -5057214609953274820
+    second: hammerfix_59
+  - first:
+      213: -6050831184814582088
+    second: hammerfix_60
+  - first:
+      213: 5753275463995297555
+    second: hammerfix_61
+  - first:
+      213: -2470219997326543025
+    second: hammerfix_62
+  - first:
+      213: 2501695061849720132
+    second: hammerfix_63
+  - first:
+      213: 2714127141320805334
+    second: hammerfix_64
+  - first:
+      213: -5762238473415508753
+    second: hammerfix_65
+  - first:
+      213: 671888766113847978
+    second: hammerfix_66
+  - first:
+      213: -2442583314542490641
+    second: hammerfix_67
+  - first:
+      213: 6218065397804203659
+    second: hammerfix_68
+  - first:
+      213: 4207268119639348685
+    second: hammerfix_69
+  - first:
+      213: 9186246293684952140
+    second: hammerfix_70
+  - first:
+      213: -980603615455401407
+    second: hammerfix_71
+  - first:
+      213: 4373466044664134167
+    second: hammerfix_72
+  - first:
+      213: -1846691076798309203
+    second: hammerfix_73
+  - first:
+      213: -3338999726965160709
+    second: hammerfix_74
+  - first:
+      213: -7806297044669005450
+    second: hammerfix_75
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: hammerfix_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc623714aeee248f0800000000000000
+      internalID: -557620713952696625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_1
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2785949ef96f1e900800000000000000
+      internalID: 712121382775380082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_2
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1319f806e43dd9240800000000000000
+      internalID: 4800225111427748145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_3
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e159c1e1ed286d90800000000000000
+      internalID: -7104377963997998620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12ca994d7d2bff420800000000000000
+      internalID: 2666046144481176609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_5
+      rect:
+        serializedVersion: 2
+        x: 642
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c18c715bddcbff90800000000000000
+      internalID: -6918710060675989053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_6
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95b20879ab801030800000000000000
+      internalID: 3463421673427088797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_7
+      rect:
+        serializedVersion: 2
+        x: 896
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c429fe3c031e873c0800000000000000
+      internalID: -4361488639546387892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_8
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 300a11d689dc2eda0800000000000000
+      internalID: -5916940905862815741
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_9
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6c5b85097cfc6a20800000000000000
+      internalID: 3057095843791985770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_10
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef97f61e12991a030800000000000000
+      internalID: 3504250355866106366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_11
+      rect:
+        serializedVersion: 2
+        x: 1408
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 638c5c160e066d760800000000000000
+      internalID: 7482274347751950390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_12
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c24f9caa7d7284d0800000000000000
+      internalID: -3133804424860843328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_13
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18546afd7e90dbe40800000000000000
+      internalID: 5673701997051004289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_14
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ce2e069f81ec1210800000000000000
+      internalID: 1305165998844686023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_15
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de7a2573f40eebac0800000000000000
+      internalID: -3837383201637881875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_16
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0b1b4e602299eb60800000000000000
+      internalID: 7775906899618896651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_17
+      rect:
+        serializedVersion: 2
+        x: 2176
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3db6a0578f1336b90800000000000000
+      internalID: -7249896031951098925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_18
+      rect:
+        serializedVersion: 2
+        x: 2304
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bc8ae325d2f22de0800000000000000
+      internalID: -1359257140267938637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_19
+      rect:
+        serializedVersion: 2
+        x: 2432
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be414306a2df8f750800000000000000
+      internalID: 6339094833968452843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_20
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87edee2084fa64110800000000000000
+      internalID: 1244875070836235896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_21
+      rect:
+        serializedVersion: 2
+        x: 2688
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 689bf37191a6c94c0800000000000000
+      internalID: -4279428889912034938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hammerfix_22
+      rect:
+        serializedVersion: 2
+        x: 2816
+        y: 0
+        width: 128
+        height: 328
+      alignment: 9
+      pivot: {x: 0.2, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f012facd916a66590800000000000000
+      internalID: -7681269484426944241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 9b84c8ebaf2601744a5ee71532b0eeef
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      hammerfix_0: -557620713952696625
+      hammerfix_1: 712121382775380082
+      hammerfix_10: 3504250355866106366
+      hammerfix_11: 7482274347751950390
+      hammerfix_12: -3133804424860843328
+      hammerfix_13: 5673701997051004289
+      hammerfix_14: 1305165998844686023
+      hammerfix_15: -3837383201637881875
+      hammerfix_16: 7775906899618896651
+      hammerfix_17: -7249896031951098925
+      hammerfix_18: -1359257140267938637
+      hammerfix_19: 6339094833968452843
+      hammerfix_2: 4800225111427748145
+      hammerfix_20: 1244875070836235896
+      hammerfix_21: -4279428889912034938
+      hammerfix_22: -7681269484426944241
+      hammerfix_3: -7104377963997998620
+      hammerfix_4: 2666046144481176609
+      hammerfix_5: -6918710060675989053
+      hammerfix_6: 3463421673427088797
+      hammerfix_7: -4361488639546387892
+      hammerfix_8: -5916940905862815741
+      hammerfix_9: 3057095843791985770
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

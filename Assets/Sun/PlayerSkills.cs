@@ -3,30 +3,41 @@ using System.Collections;
 
 public class PlayerSkills : MonoBehaviour
 {
-    [Header("Aether Skill (กดปุ่ม F)")]
+    [Header("Aether Skill (Button F)")]
     public GameObject platformPrefab;
     public float platformDuration = 3f;
-    public float chargeTimeThreshold = 0.7f;
+    public float chargeTimeThreshold = 1.0f;
+    public float hammerPower = -30f;
+    public float hammerPreDelay = 0.05f;
 
-    // --- เพิ่มการตั้งค่าสีตอนชาร์จ ---
     [Header("Charge Visuals")]
     public Color normalColor = Color.white;
-    public Color chargingColor = new Color(1f, 0.5f, 0f); // สีส้ม
-    public Color readyColor = Color.red; // สีแดงเมื่อพร้อมทุบ
+    public Color chargingColor = new Color(1f, 0.5f, 0f);
+    public Color readyColor = Color.red;
 
-    private float buttonPressTime;
-    private bool isCharging = false;
-
-    [Header("Steam Jump (กดปุ่ม C)")]
+    [Header("Steam Jump (Button C)")]
     public float superJumpForce = 25f;
-    private Rigidbody2D rb;
 
-    [Header("Smoke Screen (กดปุ่ม V)")]
+    [Header("Smoke Screen (Button V)")]
     public float stealthDuration = 3f;
+
+    [Header("Animation Parameters")]
+    public Animator animator;
+    public string animChargeBool = "IsCharging";
+    public string animAttackTrigger = "HammerAttack";
+    public string animStealthTrigger = "Stealth";
+
+    private Rigidbody2D rb;
     private SpriteRenderer sr;
     private int originalLayer;
-    [Header("Animation")]
-    public Animator animator;
+    private float buttonPressTime;
+
+    // Logic flags
+    private bool isCharging = false;
+    private bool isPerformingSmash = false;
+
+    // The PlayerController checks this to see if it should disable movement
+    public bool IsBusy => isCharging || isPerformingSmash;
 
     void Start()
     {
@@ -37,107 +48,107 @@ public class PlayerSkills : MonoBehaviour
 
     void Update()
     {
-        // ==========================================
-        // 1. Aether Skill (สร้างแพลตฟอร์ม / ชาร์จทุบ) - ใช้ปุ่ม F
-        // ==========================================
-        if (Input.GetKeyDown(KeyCode.F))
+        HandleAetherSkill();
+
+        // Prevent other skills while busy
+        if (IsBusy) return;
+
+        if (Input.GetKeyDown(KeyCode.C)) SteamSuperJump();
+        if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(StealthRoutine());
+    }
+
+    private void HandleAetherSkill()
+    {
+        // Start Charging
+        if (Input.GetKeyDown(KeyCode.F) && !isPerformingSmash)
         {
             buttonPressTime = Time.time;
             isCharging = true;
+            if (animator) animator.SetBool(animChargeBool, true);
         }
 
-        // --- เพิ่ม Logic ตรงนี้: ทำงานตลอดเวลาที่กดปุ่ม F ค้างไว้ ---
+        // While Charging
         if (isCharging)
         {
             float holdDuration = Time.time - buttonPressTime;
-
             if (holdDuration >= chargeTimeThreshold)
             {
-                // ชาร์จเต็มแล้ว! เปลี่ยนเป็นสีแดงเพื่อบอกผู้เล่น
                 sr.color = readyColor;
             }
             else
             {
-                // กำลังชาร์จ: ค่อยๆ เปลี่ยนสีจากสีปกติ ไปเป็นสีส้ม
                 float lerp = holdDuration / chargeTimeThreshold;
                 sr.color = Color.Lerp(normalColor, chargingColor, lerp);
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.F))
+        // Release Key
+        if (Input.GetKeyUp(KeyCode.F) && isCharging)
         {
             float holdDuration = Time.time - buttonPressTime;
+            if (animator) animator.SetBool(animChargeBool, false);
+
+            isCharging = false; // Stop charging state immediately
 
             if (holdDuration >= chargeTimeThreshold)
             {
-                ExecuteHammerSmash();
+                // Full charge -> Perform Smash (locks movement via isPerformingSmash)
+                StartCoroutine(HammerSmashSequence());
             }
             else
             {
+                // Partial charge -> Just create platform and reset
                 CreatePlatform();
+                sr.color = normalColor;
             }
-
-            // รีเซ็ตสถานะและสีกลับเป็นปกติเมื่อปล่อยปุ่ม
-            isCharging = false;
-            sr.color = normalColor;
-        }
-
-        // ==========================================
-        // 2. Steam Super Jump (กดปุ่ม C)
-        // ==========================================
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            SteamSuperJump();
-        }
-
-        // ==========================================
-        // 3. Smoke Screen (กดปุ่ม V)
-        // ==========================================
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            StartCoroutine(StealthRoutine());
         }
     }
 
-    void CreatePlatform()
+    private IEnumerator HammerSmashSequence()
+    {
+        isPerformingSmash = true; // LOCK MOVEMENT during the trigger/pre-delay phase
+
+        if (animator) animator.SetTrigger(animAttackTrigger);
+
+        // Wait for the animation "wind up"
+        yield return new WaitForSeconds(hammerPreDelay);
+
+        // Execute physics
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, hammerPower);
+
+        // Keep the lock for a tiny bit longer so the smash animation can play
+        yield return new WaitForSeconds(0.15f);
+
+        sr.color = normalColor;
+        isPerformingSmash = false; // RESTORE MOVEMENT
+    }
+
+    private void CreatePlatform()
     {
         if (platformPrefab != null)
         {
-            // ปรับตำแหน่งให้สร้างต่ำลงมาอีกนิด (ใต้เท้าพอดี จะได้ไม่ชนตัวละครตอนเกิด)
             Vector3 spawnPos = transform.position + new Vector3(0, -1.5f, 0);
             GameObject plat = Instantiate(platformPrefab, spawnPos, Quaternion.identity);
-
             Destroy(plat, platformDuration);
-            Debug.Log("🧱 สร้างแพลตฟอร์ม/โล่!");
         }
     }
 
-    void ExecuteHammerSmash()
-    {
-        Debug.Log("🔨 พุ่งทุบพื้น/กำแพง อย่างรุนแรง!");
-        // พุ่งลงพื้นอย่างแรงด้วย linearVelocity
-        rb.linearVelocity = new Vector2(0, -30f);
-    }
-
-    void SteamSuperJump()
+    private void SteamSuperJump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, superJumpForce);
-        Debug.Log("💨 พุ่งทะยานด้วยแรงดันไอน้ำ!");
     }
 
-    IEnumerator StealthRoutine()
+    private IEnumerator StealthRoutine()
     {
-        Debug.Log("🌫️ เริ่มพรางตัว!");
-        animator.SetTrigger("Stealth"); // เริ่มเล่นอนิเมชั่นพรางตัว
-        yield return new WaitForSeconds(1f);
-        Color originalColor = sr.color;
-        sr.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0.4f);
+        if (animator) animator.SetTrigger(animStealthTrigger);
+        yield return new WaitForSeconds(0.5f);
+
+        sr.color = new Color(normalColor.r, normalColor.g, normalColor.b, 0.4f);
         gameObject.layer = LayerMask.NameToLayer("StealthPlayer");
 
         yield return new WaitForSeconds(stealthDuration);
 
-        sr.color = normalColor; // กลับมาสีปกติที่ตั้งไว้
+        sr.color = normalColor;
         gameObject.layer = originalLayer;
-        Debug.Log("👁️ เลิกพรางตัว!");
     }
 }
