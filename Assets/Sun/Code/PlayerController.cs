@@ -109,4 +109,16 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = gravity;
         Destroy(newObject);
     }
+    public void LoadLastSavePoint()
+    {
+        // เช็คก่อนว่าเคยมีเซฟไหม (ถ้าไม่มีให้ยืนที่เดิม)
+        if (PlayerPrefs.HasKey("SafeX"))
+        {
+            float x = PlayerPrefs.GetFloat("SafeX");
+            float y = PlayerPrefs.GetFloat("SafeY");
+
+            // วาร์ปตัวละครไปที่ตำแหน่งนั้น
+            transform.position = new Vector2(x, y);
+        }
+    }
 }

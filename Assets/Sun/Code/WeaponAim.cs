@@ -25,11 +25,13 @@ public class WeaponAim : MonoBehaviour
         mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
         mousePosWorld.z = 0f;
         crosshair.position = Vector2.SmoothDamp(crosshair.position, mousePosWorld, ref crosshairVelocity, crosshairSmoothTime);
-
+        Vector3 mousePos = Input.mousePosition; 
         Vector3 lookDir = crosshair.position - transform.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
-
+        mousePos.z = 10f;
+        mousePosWorld = cam.ScreenToWorldPoint(mousePos);
+        crosshair.position = Vector2.SmoothDamp(crosshair.position, mousePosWorld, ref crosshairVelocity, crosshairSmoothTime);
         Vector3 localScale = Vector3.one;
         if (angle > 90 || angle < -90) localScale.y = -1f;
         else localScale.y = 1f;
