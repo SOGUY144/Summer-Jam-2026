@@ -17,9 +17,13 @@ public class BossStateMachine : MonoBehaviour
     public Animator rightHandAnim;
     public Transform player;
 
-    [Header("Laser")]
+    [Header("Laser Settings")]
     public Transform laserPoint;
     public LineRenderer laser;
+    public float laserDamageAmount = 30f;
+    public float laserDamageCooldown = 1.0f;
+    public float laserThickness = 0.5f; // เพิ่มความกว้างขึ้นเล็กน้อยเพื่อให้โดนง่ายขึ้น
+    public LayerMask playerLayer; // ตั้งค่าให้ตรวจจับเฉพาะ Layer ของ Player
 
     [Header("Sweep Laser Setting")]
     public float laserChargeTime = 1f;
@@ -45,7 +49,6 @@ public class BossStateMachine : MonoBehaviour
     public float attackInterval = 2f;
 
     [Header("Roaming (Area setup)")]
-    [Tooltip("Assign a Collider2D (Box, Polygon, Circle) with 'Is Trigger' enabled. Boss will stay inside this shape.")]
     public Collider2D roamArea;
     public bool enableRoam = true;
     public float moveSpeed = 2f;
@@ -54,6 +57,7 @@ public class BossStateMachine : MonoBehaviour
 
     private BossState currentState;
     private bool isAttacking;
+    private float nextLaserDamageTime;
 
     // Internal Roaming State
     private Vector2 roamTarget;
@@ -61,34 +65,27 @@ public class BossStateMachine : MonoBehaviour
 
     void Start()
     {
-        // Initial setup
         if (laser != null) laser.enabled = false;
         if (smokeObject != null) smokeObject.SetActive(false);
 
-        // Safety check for roamArea
         if (roamArea != null && !roamArea.isTrigger)
         {
-            Debug.LogWarning("BossStateMachine: roamArea collider should be set to 'Is Trigger' to avoid physics collisions.");
+            Debug.LogWarning("BossStateMachine: roamArea collider should be set to 'Is Trigger'.");
         }
 
-        // Run logic loops
         StartCoroutine(AttackLoop());
         StartCoroutine(RoamLoop());
     }
 
     IEnumerator AttackLoop()
     {
-        // Wait a small delay so the boss starts moving before attacking
         yield return new WaitForSeconds(1f);
-
         while (true)
         {
             if (!isAttacking)
             {
                 ChangeState(BossState.ChooseSkill);
             }
-
-            // Interval between the END of an attack and the NEXT skill choice
             yield return new WaitUntil(() => !isAttacking);
             yield return new WaitForSeconds(attackInterval);
         }
@@ -97,21 +94,12 @@ public class BossStateMachine : MonoBehaviour
     void ChangeState(BossState newState)
     {
         currentState = newState;
-
         switch (newState)
         {
-            case BossState.ChooseSkill:
-                ChooseSkill();
-                break;
-            case BossState.Laser:
-                StartCoroutine(LaserState());
-                break;
-            case BossState.Smoke:
-                StartCoroutine(SmokeState());
-                break;
-            case BossState.Plasma:
-                StartCoroutine(PlasmaState());
-                break;
+            case BossState.ChooseSkill: ChooseSkill(); break;
+            case BossState.Laser: StartCoroutine(LaserState()); break;
+            case BossState.Smoke: StartCoroutine(SmokeState()); break;
+            case BossState.Plasma: StartCoroutine(PlasmaState()); break;
         }
     }
 
@@ -123,8 +111,6 @@ public class BossStateMachine : MonoBehaviour
         else ChangeState(BossState.Plasma);
     }
 
-    // ================= MOVEMENT LOGIC =================
-
     IEnumerator RoamLoop()
     {
         while (true)
@@ -135,31 +121,22 @@ public class BossStateMachine : MonoBehaviour
                 continue;
             }
 
-            // If we are currently attacking, wait until we finish
             if (isAttacking)
             {
                 hasRoamTarget = false;
                 yield return new WaitUntil(() => !isAttacking);
             }
 
-            // 1. Pick a destination
             roamTarget = GetRandomPointInArea(roamArea);
             hasRoamTarget = true;
 
-            // 2. Move to destination
             while (!isAttacking && Vector2.Distance(transform.position, roamTarget) > arriveThreshold)
             {
-                transform.position = Vector3.MoveTowards(
-                    transform.position,
-                    (Vector3)roamTarget,
-                    moveSpeed * Time.deltaTime
-                );
+                transform.position = Vector3.MoveTowards(transform.position, (Vector3)roamTarget, moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
             hasRoamTarget = false;
-
-            // 3. Idle at the spot for a duration (unless interrupted by attack)
             float waitTimer = idleBetweenMoves;
             while (waitTimer > 0 && !isAttacking)
             {
@@ -172,22 +149,14 @@ public class BossStateMachine : MonoBehaviour
     Vector2 GetRandomPointInArea(Collider2D area)
     {
         Bounds b = area.bounds;
-        Vector2 randomPoint = b.center;
-
-        // Try 20 times to find a point actually inside the trigger shape (useful for Polygons/Circles)
         for (int i = 0; i < 20; i++)
         {
             float x = Random.Range(b.min.x, b.max.x);
             float y = Random.Range(b.min.y, b.max.y);
             Vector2 potentialPoint = new Vector2(x, y);
-
-            if (area.OverlapPoint(potentialPoint))
-            {
-                return potentialPoint;
-            }
+            if (area.OverlapPoint(potentialPoint)) return potentialPoint;
         }
-
-        return randomPoint; // Fallback to center if sampling fails
+        return b.center;
     }
 
     // ================= SKILL COROUTINES =================
@@ -200,17 +169,44 @@ public class BossStateMachine : MonoBehaviour
 
         laser.enabled = true;
         float timer = 0f;
+
         while (timer < laserDuration)
         {
             float t = timer / laserDuration;
             float angle = Mathf.Lerp(sweepStartAngle, sweepEndAngle, t);
-            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
+            // Calculate direction based on angle
+            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
             Vector3 start = laserPoint.position;
             Vector3 end = start + (Vector3)dir * laserDistance;
 
+            // Visuals
             laser.SetPosition(0, start);
             laser.SetPosition(1, end);
+
+            // DAMAGE CHECK: CircleCast works like a thick raycast
+            // ใช้ LayerMask เพื่อความแม่นยำและประสิทธิภาพ
+            RaycastHit2D hit = Physics2D.CircleCast(start, laserThickness, dir, laserDistance, playerLayer);
+
+            // Debug Line ในหน้า Scene (จะเห็นเป็นสีแดงเมื่อเลเซอร์ทำงาน)
+            Debug.DrawRay(start, dir * laserDistance, Color.red);
+
+            if (hit.collider != null)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    if (Time.time >= nextLaserDamageTime)
+                    {
+                        HydrationSystem health = hit.collider.GetComponent<HydrationSystem>();
+                        if (health != null)
+                        {
+                            health.TakeDamage(laserDamageAmount);
+                            nextLaserDamageTime = Time.time + laserDamageCooldown;
+                            Debug.Log("Laser Damaged Player!");
+                        }
+                    }
+                }
+            }
 
             timer += Time.deltaTime;
             yield return null;
@@ -252,7 +248,7 @@ public class BossStateMachine : MonoBehaviour
             Vector2 dir = (targetPos - (Vector2)firePoint.position).normalized;
 
             Rigidbody2D rb = plasma.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.velocity = dir * plasmaSpeed;
+            if (rb != null) rb.linearVelocity = dir * plasmaSpeed;
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -268,8 +264,6 @@ public class BossStateMachine : MonoBehaviour
         return (distL < distR) ? leftHandAnim : rightHandAnim;
     }
 
-    // ================= DEBUGGING =================
-
     void OnDrawGizmosSelected()
     {
         if (roamArea != null)
@@ -277,15 +271,6 @@ public class BossStateMachine : MonoBehaviour
             Gizmos.color = new Color(0f, 1f, 0f, 0.2f);
             Bounds b = roamArea.bounds;
             Gizmos.DrawCube(b.center, b.size);
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(b.center, b.size);
-        }
-
-        if (hasRoamTarget)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, roamTarget);
-            Gizmos.DrawSphere(roamTarget, 0.2f);
         }
     }
 }

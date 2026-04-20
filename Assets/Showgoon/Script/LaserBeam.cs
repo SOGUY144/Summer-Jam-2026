@@ -1,62 +1,72 @@
 using UnityEngine;
+using System.Collections.Generic;
 
+[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(EdgeCollider2D))]
 public class LaserBeam : MonoBehaviour
 {
+    [Header("Settings")]
+    public float damageAmount = 30f;
+    public float damageCooldown = 1.0f; // ใช้ 1.0f แทน 1s เพื่อแก้ Error CS1519
+    public float laserLength = 10f;
+
     private LineRenderer lineRenderer;
-    private float lifeTime = 0.15f;
-    private float timer;
-    private bool initialized = false;
+    private EdgeCollider2D edgeCollider;
+    private float nextDamageTime;
 
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        edgeCollider = GetComponent<EdgeCollider2D>();
 
-        if (lineRenderer != null)
-        {
-            lineRenderer.useWorldSpace = true;
-            lineRenderer.positionCount = 2;
-        }
-    }
+        // บังคับให้ Collider เป็น Trigger
+        edgeCollider.isTrigger = true;
 
-    public void Setup(Vector3 start, Vector3 end)
-    {
-        if (lineRenderer == null)
-        {
-            lineRenderer = GetComponent<LineRenderer>();
-            if (lineRenderer == null) return;
-        }
-
-        lineRenderer.useWorldSpace = true;
+        // ตั้งค่า LineRenderer เบื้องต้น
         lineRenderer.positionCount = 2;
-
-        lineRenderer.SetPosition(0, start);
-        lineRenderer.SetPosition(1, end);
-
-        Color c = lineRenderer.startColor;
-        if (c.a <= 0f) c.a = 1f;
-        lineRenderer.startColor = c;
-        lineRenderer.endColor = c;
-
-        timer = lifeTime;
-        initialized = true;
+        lineRenderer.useWorldSpace = true;
     }
 
     void Update()
     {
-        if (!initialized || lineRenderer == null) return;
+        UpdateLaserLogic();
+    }
 
-        timer -= Time.deltaTime;
+    void UpdateLaserLogic()
+    {
+        // คำนวณจุดเริ่มต้นและจุดจบในโลกจริง (World Space)
+        Vector3 startPos = transform.position;
+        Vector3 endPos = transform.position + (transform.right * laserLength);
 
-        float alpha = Mathf.Clamp01(timer / lifeTime);
-        Color c = lineRenderer.startColor;
-        c.a = alpha;
+        // 1. อัปเดตเส้นที่มองเห็น
+        lineRenderer.SetPosition(0, startPos);
+        lineRenderer.SetPosition(1, endPos);
 
-        lineRenderer.startColor = c;
-        lineRenderer.endColor = c;
+        // 2. อัปเดต Collider ให้ตรงกับเส้น
+        // EdgeCollider ใช้ Local Space ดังนั้นเราต้องแปลงจุดกลับเป็น Local
+        Vector2 localStart = Vector2.zero;
+        Vector2 localEnd = transform.InverseTransformDirection(transform.right) * laserLength;
 
-        if (timer <= 0f)
+        edgeCollider.points = new Vector2[] { localStart, localEnd };
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // เช็คว่าสิ่งที่โดนคือ Player หรือไม่
+        if (collision.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            if (Time.time >= nextDamageTime)
+            {
+                // มองหา Script HydrationSystem ใน Player
+                HydrationSystem health = collision.GetComponent<HydrationSystem>();
+
+                if (health != null)
+                {
+                    health.TakeDamage(damageAmount);
+                    nextDamageTime = Time.time + damageCooldown;
+                    Debug.Log("Laser hit player! Damage: " + damageAmount);
+                }
+            }
         }
     }
 }
