@@ -1641,6 +1641,8 @@ PlayableDirector:
     value: {fileID: 1292629863}
   - key: {fileID: -5869782825883254701, guid: cfea540e44f1e3849a52b5d229279165, type: 2}
     value: {fileID: 1739338310}
+  - key: {fileID: -2333367248107168967, guid: cfea540e44f1e3849a52b5d229279165, type: 2}
+    value: {fileID: 1691668803}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &176607789
@@ -9125,7 +9127,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 155382911483927002, guid: 1e5ca525b43830e4d85985c17bf8389b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -632.91
+      value: -634.09
       objectReference: {fileID: 0}
     - target: {fileID: 155382911483927002, guid: 1e5ca525b43830e4d85985c17bf8389b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27989,7 +27991,7 @@ Transform:
   m_GameObject: {fileID: 1463000665}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3388672, y: -1.1571205, z: -1003.958}
+  m_LocalPosition: {x: 36.09906, y: -1.1176906, z: -1003.958}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30511,7 +30513,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1852496267695888615, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_Pitch
-      value: 0.95041233
+      value: 0.9901476
       objectReference: {fileID: 0}
     - target: {fileID: 2917189991816384782, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_Name
@@ -35998,7 +36000,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1852496267695888615, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_Pitch
-      value: 1.0411091
+      value: 1.0141189
       objectReference: {fileID: 0}
     - target: {fileID: 2917189991816384782, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_Name
@@ -36006,7 +36008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4298946981047166966, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5240199360583464792, guid: 1bb047cff305af94e877cf6325e61858, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -36264,6 +36266,8 @@ PlayableDirector:
     value: {fileID: 1522579013}
   - key: {fileID: -7383692570599472787, guid: 25cba0cf0dd8e0f4fbb46265c6e9b48d, type: 2}
     value: {fileID: 599262135}
+  - key: {fileID: 4961417649334315571, guid: 25cba0cf0dd8e0f4fbb46265c6e9b48d, type: 2}
+    value: {fileID: 1522579013}
   m_ExposedReferences:
     m_References: []
 --- !u!82 &4621151636820235439
@@ -36280,7 +36284,7 @@ AudioSource:
   m_Resource: {fileID: 8300000, guid: d77b2d4e9c74a7e4181cec7a479b9b99, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1.0493431
+  m_Pitch: 1.029861
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -36635,11 +36639,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 155382911483927002, guid: 1e5ca525b43830e4d85985c17bf8389b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.3336792
+      value: -8.086304
       objectReference: {fileID: 0}
     - target: {fileID: 155382911483927002, guid: 1e5ca525b43830e4d85985c17bf8389b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.5496807
+      value: -4.4496803
       objectReference: {fileID: 0}
     - target: {fileID: 155382911483927002, guid: 1e5ca525b43830e4d85985c17bf8389b, type: 3}
       propertyPath: m_LocalPosition.z
