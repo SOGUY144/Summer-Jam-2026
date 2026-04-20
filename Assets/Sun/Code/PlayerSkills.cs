@@ -6,9 +6,11 @@ public class PlayerSkills : MonoBehaviour
     [Header("Aether Skill (Button F)")]
     public GameObject platformPrefab;
     public float platformDuration = 3f;
-    public float chargeTimeThreshold = 1.0f;
+    public float chargeTimeThreshold = 0.5f;
     public float hammerPower = -30f;
     public float hammerPreDelay = 0.05f;
+    public float aetherCooldown = 2f;
+    private float nextAetherTime = 0f;
 
     [Header("Charge Visuals")]
     public Color normalColor = Color.white;
@@ -17,9 +19,13 @@ public class PlayerSkills : MonoBehaviour
 
     [Header("Steam Jump (Button C)")]
     public float superJumpForce = 25f;
+    public float jumpCooldown = 3f;
+    private float nextJumpTime = 0f;
 
     [Header("Smoke Screen (Button V)")]
     public float stealthDuration = 3f;
+    public float stealthCooldown = 5f;
+    private float nextStealthTime = 0f;
 
     [Header("Animation Parameters")]
     public Animator animator;
@@ -32,11 +38,9 @@ public class PlayerSkills : MonoBehaviour
     private int originalLayer;
     private float buttonPressTime;
 
-    // Logic flags
     private bool isCharging = false;
     private bool isPerformingSmash = false;
 
-    // The PlayerController checks this to see if it should disable movement
     public bool IsBusy => isCharging || isPerformingSmash;
 
     void Start()
@@ -50,26 +54,35 @@ public class PlayerSkills : MonoBehaviour
     {
         HandleAetherSkill();
 
-        // Prevent other skills while busy
         if (IsBusy) return;
 
-        if (Input.GetKeyDown(KeyCode.C)) SteamSuperJump();
-        if (Input.GetKeyDown(KeyCode.V)) StartCoroutine(StealthRoutine());
+        if (Input.GetKeyDown(KeyCode.C) && Time.time >= nextJumpTime)
+        {
+            SteamSuperJump();
+            nextJumpTime = Time.time + jumpCooldown;
+        }
+
+        if (Input.GetKeyDown(KeyCode.V) && Time.time >= nextStealthTime)
+        {
+            StartCoroutine(StealthRoutine());
+            nextStealthTime = Time.time + stealthCooldown;
+        }
     }
 
     private void HandleAetherSkill()
     {
-        // Start Charging
-        if (Input.GetKeyDown(KeyCode.F) && !isPerformingSmash)
+        if (Input.GetKeyDown(KeyCode.F) && !isPerformingSmash && Time.time >= nextAetherTime)
         {
             buttonPressTime = Time.time;
             isCharging = true;
             if (animator) animator.SetBool(animChargeBool, true);
         }
 
-        // While Charging
         if (isCharging)
         {
+            // ล็อคความเร็วแกน X เป็น 0 ขณะชาร์จ
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
             float holdDuration = Time.time - buttonPressTime;
             if (holdDuration >= chargeTimeThreshold)
             {
@@ -82,45 +95,65 @@ public class PlayerSkills : MonoBehaviour
             }
         }
 
-        // Release Key
         if (Input.GetKeyUp(KeyCode.F) && isCharging)
         {
             float holdDuration = Time.time - buttonPressTime;
             if (animator) animator.SetBool(animChargeBool, false);
 
-            isCharging = false; // Stop charging state immediately
+            isCharging = false;
 
             if (holdDuration >= chargeTimeThreshold)
             {
-                // Full charge -> Perform Smash (locks movement via isPerformingSmash)
                 StartCoroutine(HammerSmashSequence());
+                nextAetherTime = Time.time + aetherCooldown;
             }
             else
             {
-                // Partial charge -> Just create platform and reset
                 CreatePlatform();
                 sr.color = normalColor;
+                nextAetherTime = Time.time + aetherCooldown;
             }
         }
     }
 
     private IEnumerator HammerSmashSequence()
     {
-        isPerformingSmash = true; // LOCK MOVEMENT during the trigger/pre-delay phase
-
+        isPerformingSmash = true;
         if (animator) animator.SetTrigger(animAttackTrigger);
 
-        // Wait for the animation "wind up"
+        int playerLayer = gameObject.layer;
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+
+        if (enemyLayer != -1)
+        {
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
+        }
+
         yield return new WaitForSeconds(hammerPreDelay);
 
-        // Execute physics
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, hammerPower);
 
-        // Keep the lock for a tiny bit longer so the smash animation can play
-        yield return new WaitForSeconds(0.15f);
+        float damage = 500f;
+        float hitRadius = 2.5f;
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, hitRadius);
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            EnemyBase enemyScript = enemy.GetComponent<EnemyBase>();
+            if (enemyScript != null)
+            {
+                enemyScript.TakeDamage(damage);
+            }
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        if (enemyLayer != -1)
+        {
+            Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
+        }
 
         sr.color = normalColor;
-        isPerformingSmash = false; // RESTORE MOVEMENT
+        isPerformingSmash = false;
     }
 
     private void CreatePlatform()
@@ -141,13 +174,10 @@ public class PlayerSkills : MonoBehaviour
     private IEnumerator StealthRoutine()
     {
         if (animator) animator.SetTrigger(animStealthTrigger);
-        yield return new WaitForSeconds(0.5f);
-
-        sr.color = new Color(normalColor.r, normalColor.g, normalColor.b, 0.4f);
         gameObject.layer = LayerMask.NameToLayer("StealthPlayer");
-
+        yield return new WaitForSeconds(0.5f);
+        sr.color = new Color(normalColor.r, normalColor.g, normalColor.b, 0.4f);
         yield return new WaitForSeconds(stealthDuration);
-
         sr.color = normalColor;
         gameObject.layer = originalLayer;
     }
