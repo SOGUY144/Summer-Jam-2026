@@ -353,13 +353,16 @@ AnimatorStateMachine:
     m_Position: {x: 170, y: 690, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3603641290458121302}
-    m_Position: {x: 820, y: 600, z: 0}
+    m_Position: {x: 920, y: 570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5385494942644513057}
     m_Position: {x: 1010, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7058184012130663688}
     m_Position: {x: 730, y: 220, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8438859277521761776}
+    m_Position: {x: 670, y: 760, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 7281325031167979263}
@@ -719,6 +722,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: f2797becce8dea34e8dde2359165faed, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &8438859277521761776
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: soda
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: b0e48cf1837eb544ebe6b539de1f1fff, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
