@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     public float moveSpeed = 8f;
     public float jumpForce = 12f;
+
+    [Header("Dash Settings")]
     public float dashSpeed = 20f;
+    public float dashCooldown = 1.2f;
+    private float nextDashTime = 0f;
+    private bool isDashing = false;
+
+    [Header("Physics & Logic")]
     private Rigidbody2D rb;
     private bool isGrounded;
     public Transform groundCheck;
@@ -18,22 +25,16 @@ public class PlayerController : MonoBehaviour
     public GameObject DashFx;
     public SpriteRenderer spriteRenderer;
 
-    // Tracks current facing direction: true = facing right, false = facing left
     private bool facingRight = true;
-
-    // small vertical velocity threshold to avoid flicker
     private const float verticalThreshold = 0.1f;
 
-
-    void Start() 
+    void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Initialize facing direction from current rotation (tolerant to small floating errors)
         facingRight = Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, 0f)) < 1f;
 
-        // initialize animator parameters to a consistent state if animator is assigned
         if (animator != null)
         {
             animator.SetBool("IsWalking", false);
@@ -44,44 +45,59 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isDashing) return;
+
+        // ดึงสคริปต์ Skills มาเช็คสถานะ
+        PlayerSkills skills = GetComponent<PlayerSkills>();
+        bool isBusy = (skills != null && skills.IsBusy);
+
         float moveInput = Input.GetAxisRaw("Horizontal");
-        rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
-        IsWalking = moveInput != 0;
+
+        // --- ส่วนที่แก้ไข: ถ้า Busy (ชาร์จ/ทุบ) ให้หยุดเดินแต่ยังรันโค้ดต่อเพื่อไป Flip ---
+        if (isBusy)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            IsWalking = false;
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+            IsWalking = moveInput != 0;
+        }
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-        if (Input.GetButtonDown("Jump") && isGrounded)
+
+        // ป้องกันการกระโดดหรือ Dash ขณะชาร์จ
+        if (Input.GetButtonDown("Jump") && isGrounded && !isBusy)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        // Update jump / fall states based on vertical velocity and grounded state
         float vy = rb.linearVelocity.y;
         IsJumping = !isGrounded && vy > verticalThreshold;
         IsFalling = !isGrounded && vy < -verticalThreshold;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= nextDashTime && !isBusy)
         {
             if (animator != null) animator.SetTrigger("Dash");
             StartCoroutine(Dash());
+            nextDashTime = Time.time + dashCooldown;
         }
 
-        Flip();
+        Flip(); // หันหน้าได้เสมอแม้จะเดินไม่ได้
         UpdateAnimation();
     }
 
-    private void Flip() // Flip by Rotation
+    private void Flip()
     {
         float moveInput = Input.GetAxisRaw("Horizontal");
-
         if (moveInput > 0f && !facingRight)
         {
-            // Face right
             transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             facingRight = true;
         }
         else if (moveInput < 0f && facingRight)
         {
-            // Face left (rotate 180 degrees on Y)
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             facingRight = false;
         }
@@ -90,34 +106,39 @@ public class PlayerController : MonoBehaviour
     public void UpdateAnimation()
     {
         if (animator == null) return;
-
         animator.SetBool("IsWalking", IsWalking);
         animator.SetBool("IsJumping", IsJumping);
         animator.SetBool("IsFalling", IsFalling);
     }
+
     IEnumerator Dash()
     {
+        isDashing = true;
         float gravity = rb.gravityScale;
         rb.gravityScale = 0;
 
-        // Ensure DashFx rotation Y is 0 when facing right, -180 when facing left
         float dashYrotation = facingRight ? 0f : -180f;
         GameObject newObject = Instantiate(DashFx, transform.position, Quaternion.Euler(0f, dashYrotation, 0f));
         newObject.transform.parent = transform;
-        rb.linearVelocity = new Vector2(Input.GetAxisRaw("Horizontal") * dashSpeed, 0);
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        float dashDirection = moveInput != 0 ? moveInput : (facingRight ? 1 : -1);
+
+        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0);
+
         yield return new WaitForSeconds(0.2f);
+
         rb.gravityScale = gravity;
         Destroy(newObject);
+        isDashing = false;
     }
+
     public void LoadLastSavePoint()
     {
-        // เช็คก่อนว่าเคยมีเซฟไหม (ถ้าไม่มีให้ยืนที่เดิม)
         if (PlayerPrefs.HasKey("SafeX"))
         {
             float x = PlayerPrefs.GetFloat("SafeX");
             float y = PlayerPrefs.GetFloat("SafeY");
-
-            // วาร์ปตัวละครไปที่ตำแหน่งนั้น
             transform.position = new Vector2(x, y);
         }
     }

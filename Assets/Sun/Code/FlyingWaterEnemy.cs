@@ -20,6 +20,11 @@ public class FlyingWaterEnemy : EnemyBase
 
     void Update()
     {
+        if (player == null || player.gameObject.layer == LayerMask.NameToLayer("StealthPlayer"))
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // หยุดเดิน
+            return; // 👈 ข้ามคำสั่งตามล่าด้านล่างไปเลย
+        }
         if (player == null) return;
 
         float distance = Vector2.Distance(transform.position, player.position);
