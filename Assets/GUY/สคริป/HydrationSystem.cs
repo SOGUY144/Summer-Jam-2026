@@ -16,18 +16,24 @@ public class HydrationSystem : MonoBehaviour
     public float coolDownRate = 15f;
     public float overheatDamageRate = 10f;
 
-    [Header("Items")]
+    [Header("Items & Shield Logic")]
     public float sodaDecreaseAmount = 50f;
+    public float sodaHealAmount = 30f;
+    public float sodaCooldown = 2f;
+    private float nextSodaTime = 0f;
+    [Range(0f, 1f)]
+    public float shieldDamageReduction = 0.5f;
 
     [Header("UI References")]
     public Image hpFillImage;
-    [Tooltip("ลาก Slider หรือ Image มาใส่ (สามารถใช้ตัวใดตัวหนึ่ง หรือทั้งสองตัวก็ได้)")]
     public Slider hydroricSlider;
     public Image hydroricFillImage;
-    [Tooltip("ใส่ GameObject เพื่อเปิด-ปิดโล่แบบธรรมดา (ใช้แบบเปิดปิดภาพ)")]
-    public GameObject shieldUI;
-    [Tooltip("ใส่ Animator เพื่อเล่นแอนิเมชันโล่ (ตั้งพารามิเตอร์ชื่อ IsActive เป็น bool)")]
+    public GameObject shieldUI; // อันนี้คือรูปโล่บนหน้าจอ UI
     public Animator shieldAnimator;
+
+    [Header("Player & Effects")]
+    public Animator playerAnimator;
+    public GameObject shieldEffectObject; // 👈 1. เพิ่มช่องนี้: สำหรับลากวัตถุโล่ (ลูกของ Player) มาใส่
 
     [Header("States (Read Only)")]
     public bool isInHotZone = false;
@@ -38,12 +44,22 @@ public class HydrationSystem : MonoBehaviour
     {
         currentHP = maxHP;
         currentHydroric = 0f;
+        if (playerAnimator == null) playerAnimator = GetComponent<Animator>();
+
+        // 👈 2. ปิดโล่ไว้ก่อนตอนเริ่มเกมเพื่อความชัวร์
+        if (shieldEffectObject != null) shieldEffectObject.SetActive(false);
+
         UpdateUI();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) ConsumeSoda();
+        if (Input.GetKeyDown(KeyCode.E) && Time.time >= nextSodaTime)
+        {
+            ConsumeSoda();
+            nextSodaTime = Time.time + sodaCooldown;
+        }
+
         if (Input.GetKeyDown(KeyCode.Q)) ToggleShield();
 
         if (isInHotZone) UpdateHydroric();
@@ -63,7 +79,7 @@ public class HydrationSystem : MonoBehaviour
         if (currentHydroric >= maxHydroric && !isOverheated)
         {
             isOverheated = true;
-            Debug.Log("Overheated! เริ่มโดนดาเมจจากความร้อน!");
+            Debug.Log("Overheated!");
         }
     }
 
@@ -74,22 +90,13 @@ public class HydrationSystem : MonoBehaviour
             currentHydroric -= coolDownRate * Time.deltaTime;
             currentHydroric = Mathf.Clamp(currentHydroric, 0f, maxHydroric);
         }
-
-        if (isOverheated && currentHydroric <= 0)
-        {
-            isOverheated = false;
-            Debug.Log("Cooled down! ความร้อนลดเหลือศูนย์ หยุดโดนดาเมจแล้ว");
-        }
+        if (isOverheated && currentHydroric <= 0) isOverheated = false;
     }
 
     private void ApplyDamage()
     {
         currentHP -= overheatDamageRate * Time.deltaTime;
-        if (currentHP <= 0)
-        {
-            currentHP = 0;
-            Die();
-        }
+        if (currentHP <= 0) { currentHP = 0; Die(); }
     }
 
     private void UpdateUI()
@@ -102,59 +109,58 @@ public class HydrationSystem : MonoBehaviour
         if (shieldAnimator != null) shieldAnimator.SetBool("IsActive", isShieldActive);
     }
 
+    // 👈 3. แก้ฟังก์ชัน ToggleShield ให้เปิด/ปิดวัตถุโล่แทนการเปลี่ยนท่าแอนิเมชันตัวละคร
     public void ToggleShield()
     {
         isShieldActive = !isShieldActive;
-        Debug.Log("Shield toggled: " + (isShieldActive ? "เปิด" : "ปิด"));
+
+        if (shieldEffectObject != null)
+        {
+            shieldEffectObject.SetActive(isShieldActive); // เปิด/ปิด ตัวลูกที่เป็นโล่
+        }
+
+        // ถ้าอยากให้ตัวละครมีท่ากางโล่นิดๆ ด้วยก็ค้างบรรทัดนี้ไว้ได้ (แต่ถ้าไม่อยากให้ตัวละครหาย ให้เอาออก)
+        // if (playerAnimator != null) playerAnimator.SetBool("IsShielding", isShieldActive);
+
         UpdateUI();
     }
 
     public void ConsumeSoda()
     {
+        if (playerAnimator != null) playerAnimator.SetTrigger("DrinkSoda");
+
         currentHydroric -= sodaDecreaseAmount;
         currentHydroric = Mathf.Clamp(currentHydroric, 0f, maxHydroric);
-        Debug.Log("ดื่มโซดา! ลดความร้อนไป " + sodaDecreaseAmount);
+        currentHP += sodaHealAmount;
+        currentHP = Mathf.Clamp(currentHP, 0f, maxHP);
 
-        if (isOverheated && currentHydroric <= 0)
-        {
-            isOverheated = false;
-            Debug.Log("Cooled down! โซดาลดความร้อนเหลือ 0 หยุดโดนดาเมจแล้ว");
-        }
+        if (isOverheated && currentHydroric <= 0) isOverheated = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("HotZone"))
-        {
-            isInHotZone = true;
-            Debug.Log("เข้าสู่ Hot Zone ทีมีความร้อน!");
-        }
+        if (collision.CompareTag("HotZone")) isInHotZone = true;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("HotZone"))
-        {
-            isInHotZone = false;
-            Debug.Log("ออกจาก Hot Zone แล้ว!");
-        }
+        if (collision.CompareTag("HotZone")) isInHotZone = false;
     }
 
     public void TakeDamage(float damageAmount)
     {
-        currentHP -= damageAmount;
-        Debug.Log("💥 ผู้เล่นโดนโจมตี! เสียเลือด: " + damageAmount + " | เลือดเหลือ: " + currentHP);
-
-        if (currentHP <= 0)
+        if (isShieldActive)
         {
-            currentHP = 0;
-            Die();
+            damageAmount *= shieldDamageReduction;
+            Debug.Log("โล่ลดดาเมจ!");
         }
+
+        currentHP -= damageAmount;
+        if (currentHP <= 0) { currentHP = 0; Die(); }
     }
 
     private void Die()
     {
-        Debug.Log("💀 ผู้เล่นตายแล้ว! กำลังกลับจุดเซฟ...");
         StartCoroutine(RespawnRoutine());
     }
 
@@ -162,60 +168,47 @@ public class HydrationSystem : MonoBehaviour
     {
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
-        if (GetComponent<WeaponAim>() != null) GetComponent<WeaponAim>().enabled = false;
+
+        // 👈 4. ปิดโล่ทันทีเมื่อตาย
+        if (shieldEffectObject != null) shieldEffectObject.SetActive(false);
+
         if (GetComponent<PlayerController>() != null) GetComponent<PlayerController>().enabled = false;
 
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
-            rb.gravityScale = 0f;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
-        // 👈 แก้ตรงนี้: รอเวลาตายก่อน
         yield return new WaitForSeconds(1.5f);
 
-        // 👈 แก้ตรงนี้: ย้ายผู้เล่นกลับจุดเซฟก่อนจะรีเซ็ตโลก
         if (PlayerPrefs.HasKey("SafeX"))
         {
-            float x = PlayerPrefs.GetFloat("SafeX");
-            float y = PlayerPrefs.GetFloat("SafeY");
-            transform.position = new Vector2(x, y);
-        }
-        else
-        {
-            transform.position = new Vector2(0, 0);
+            transform.position = new Vector2(PlayerPrefs.GetFloat("SafeX"), PlayerPrefs.GetFloat("SafeY"));
         }
 
-        // 👈 แก้ตรงนี้: ใส่คำสั่งหาตัวที่ถูกปิดไปแล้วด้วย (FindObjectsInactive.Include)
         MonoBehaviour[] allScripts = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         foreach (MonoBehaviour script in allScripts)
         {
-            if (script is IResettable resettable)
-            {
-                resettable.ResetObject();
-            }
+            if (script is IResettable resettable) resettable.ResetObject();
         }
 
         currentHP = maxHP;
         currentHydroric = 0f;
         isOverheated = false;
+        isShieldActive = false;
 
-        yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
 
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Collider2D>().enabled = true;
         if (GetComponent<PlayerController>() != null) GetComponent<PlayerController>().enabled = true;
-        if (GetComponent<WeaponAim>() != null) GetComponent<WeaponAim>().enabled = true;
 
         if (rb != null)
         {
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             rb.gravityScale = 1f;
         }
-
-        Debug.Log("✨ คืนชีพและ Reset โลกสำเร็จ!");
     }
 }
