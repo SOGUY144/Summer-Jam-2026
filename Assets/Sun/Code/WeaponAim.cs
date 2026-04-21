@@ -1,68 +1,103 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Handles weapon aiming by positioning a crosshair at the mouse cursor
+/// and calculating firing directions toward that point.
+/// </summary>
 public class WeaponAim : MonoBehaviour
 {
     [Header("Targets")]
-    public Transform crosshair; 
-    public Transform firePoint;  
+    [Tooltip("The transform representing the visual crosshair in the world.")]
+    public Transform crosshair;
+    [Tooltip("The point from which the bullets are spawned.")]
+    public Transform firePoint;
 
     [Header("Settings")]
-    public float crosshairSmoothTime = 0.1f;
-    private Vector2 crosshairVelocity = Vector2.zero;
-    private Camera cam;
-    private Vector3 mousePosWorld;
+    [Tooltip("How smoothly the crosshair follows the mouse.")]
+    public float crosshairSmoothTime = 0.05f;
+
+    private Vector2 _crosshairVelocity = Vector2.zero;
+    private Camera _cam;
 
     void Start()
     {
-        cam = Camera.main;
-        Cursor.visible = false;
+        _cam = Camera.main;
+
+        // Ensure the cursor is visible, though the crosshair transform will likely be the primary visual aid.
+        Cursor.visible = true;
+
+        if (crosshair == null)
+        {
+            Debug.LogError("WeaponAim: Please assign a Crosshair Transform in the inspector.");
+        }
     }
 
     void Update()
     {
- 
-        mousePosWorld = cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePosWorld.z = 0f;
-        crosshair.position = Vector2.SmoothDamp(crosshair.position, mousePosWorld, ref crosshairVelocity, crosshairSmoothTime);
-        Vector3 mousePos = Input.mousePosition; 
-        Vector3 lookDir = crosshair.position - transform.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        mousePos.z = 10f;
-        mousePosWorld = cam.ScreenToWorldPoint(mousePos);
-        crosshair.position = Vector2.SmoothDamp(crosshair.position, mousePosWorld, ref crosshairVelocity, crosshairSmoothTime);
-        Vector3 localScale = Vector3.one;
-        if (angle > 90 || angle < -90) localScale.y = -1f;
-        else localScale.y = 1f;
-        transform.localScale = localScale;
+        HandleCrosshairMovement();
+
         if (Input.GetButtonDown("Fire1"))
         {
-            Debug.Log("🎯 1. คลิกซ้ายยิง!");
             Shoot();
         }
     }
 
-    void Shoot()
+    /// <summary>
+    /// Converts mouse screen position to world coordinates and updates the crosshair position.
+    /// </summary>
+    private void HandleCrosshairMovement()
     {
+        if (crosshair == null) return;
+
+        // 1. Get mouse position in pixels (Screen Space)
+        Vector3 mouseScreenPos = Input.mousePosition;
+
+        // 2. Convert Screen Space to World Space
+        // Note: For 2D, we ensure the z-position is relative to the camera distance or 0
+        Vector3 mouseWorldPos = _cam.ScreenToWorldPoint(new Vector3(mouseScreenPos.x, mouseScreenPos.y, -_cam.transform.position.z));
+
+        // 3. Smoothly move the crosshair to the mouse position
+        Vector3 targetPos = new Vector3(mouseWorldPos.x, mouseWorldPos.y, 0);
+        crosshair.position = Vector2.SmoothDamp(crosshair.position, targetPos, ref _crosshairVelocity, crosshairSmoothTime);
+    }
+
+    /// <summary>
+    /// Spawns a bullet from the pool and launches it toward the current crosshair position.
+    /// </summary>
+    private void Shoot()
+    {
+        if (ObjectPooler.Instance == null)
+        {
+            Debug.LogError("WeaponAim: ObjectPooler instance not found in scene!");
+            return;
+        }
+
         GameObject bulletObj = ObjectPooler.Instance.GetPooledObject();
 
         if (bulletObj != null)
         {
-          
+            // Position the bullet at the muzzle/fire point
             bulletObj.transform.position = firePoint.position;
-            Vector2 aimDirection = (crosshair.position - firePoint.position).normalized;
+
+            // Calculate direction from firePoint to the crosshair
+            Vector2 aimDirection = ((Vector2)crosshair.position - (Vector2)firePoint.position).normalized;
+
+            // Rotate the bullet to face the direction of travel (optional, assumes bullet sprite faces Right)
+            float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+            bulletObj.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
             bulletObj.SetActive(true);
+
+            // Interface with the Bullet script to set velocity
             Bullet bulletScript = bulletObj.GetComponent<Bullet>();
             if (bulletScript != null)
             {
                 bulletScript.Launch(aimDirection);
-                Debug.Log("🔥 2. ส่งกระสุนไปที่ทิศทาง: " + aimDirection);
             }
         }
         else
         {
-            Debug.LogWarning("❌ Object Pool เต็ม! ยิงไม่ออก");
+            Debug.LogWarning("WeaponAim: Object Pool is empty or null!");
         }
     }
 }
