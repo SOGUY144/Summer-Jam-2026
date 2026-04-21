@@ -45,15 +45,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (PauseMenu.IsPaused) return; // หยุดรับ Input ทั้งหมดตอน Pause
         if (isDashing) return;
 
-        // ดึงสคริปต์ Skills มาเช็คสถานะ
         PlayerSkills skills = GetComponent<PlayerSkills>();
         bool isBusy = (skills != null && skills.IsBusy);
 
         float moveInput = Input.GetAxisRaw("Horizontal");
 
-        // --- ส่วนที่แก้ไข: ถ้า Busy (ชาร์จ/ทุบ) ให้หยุดเดินแต่ยังรันโค้ดต่อเพื่อไป Flip ---
         if (isBusy)
         {
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
@@ -67,7 +66,6 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
-        // ป้องกันการกระโดดหรือ Dash ขณะชาร์จ
         if (Input.GetButtonDown("Jump") && isGrounded && !isBusy)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -84,12 +82,14 @@ public class PlayerController : MonoBehaviour
             nextDashTime = Time.time + dashCooldown;
         }
 
-        Flip(); // หันหน้าได้เสมอแม้จะเดินไม่ได้
+        Flip();
         UpdateAnimation();
     }
 
     private void Flip()
     {
+        if (PauseMenu.IsPaused) return; // หยุดหันซ้ายขวาตอน Pause
+
         float moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput > 0f && !facingRight)
         {

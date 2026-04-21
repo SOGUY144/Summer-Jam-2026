@@ -1,9 +1,10 @@
 using UnityEngine;
-using UnityEngine.EventSystems; // เพิ่มตรงนี้
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
     public GameObject container;
+    public static bool IsPaused = false; // เพิ่มตรงนี้
 
     void Update()
     {
@@ -17,7 +18,8 @@ public class PauseMenu : MonoBehaviour
     {
         container.SetActive(true);
         Time.timeScale = 0;
-        EventSystem.current.SetSelectedGameObject(null); // เพิ่มตรงนี้
+        IsPaused = true; // เพิ่มตรงนี้
+        EventSystem.current.SetSelectedGameObject(null);
         Debug.Log("Paused");
     }
 
@@ -25,6 +27,7 @@ public class PauseMenu : MonoBehaviour
     {
         container.SetActive(false);
         Time.timeScale = 1;
+        IsPaused = false; // เพิ่มตรงนี้
         Debug.Log("Resumed");
     }
 
