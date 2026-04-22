@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-// เติม IResettable เข้าไปตรงนี้
 public abstract class EnemyBase : MonoBehaviour, IResettable
 {
     [Header("Base Stats")]
@@ -9,47 +9,121 @@ public abstract class EnemyBase : MonoBehaviour, IResettable
     protected Rigidbody2D rb;
     protected Transform player;
 
-    // 👇 ตัวแปรสำหรับจำค่าเริ่มต้น
+    [Header("Visual Effects (Flash)")]
+    public Material flashMaterial;
+    public float flashDuration = 0.15f;
+    private Material originalMaterial;
+    private Coroutine flashCoroutine;
+    private string flashTextureProperty = "_MainTex";
+
+    [Header("Animations")]
+    public Animator animator;
+    protected bool isBusy = false; // Prevents moving/attacking during animations
+
     protected Vector2 startPosition;
     protected Quaternion startRotation;
+    protected Vector3 originalScale; // Store the initial scale from the inspector
+    protected SpriteRenderer spriteRenderer;
 
     protected virtual void Start()
     {
-        // 1. จำตำแหน่งและค่าต่างๆ ไว้ตั้งแต่เริ่มเกม
         startPosition = transform.position;
         startRotation = transform.rotation;
+        originalScale = transform.localScale; // Remember the size you set in the editor!
         currentHealth = maxHealth;
 
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (animator == null) animator = GetComponent<Animator>();
+
+        if (spriteRenderer != null)
+            originalMaterial = spriteRenderer.sharedMaterial;
+
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) player = p.transform;
+
+        DetectTextureProperty();
     }
 
     public virtual void TakeDamage(float damage)
     {
+        if (isBusy && currentHealth <= 0) return; // Prevent double death
+
         currentHealth -= damage;
+        TriggerDamageFlash();
+
         if (currentHealth <= 0)
         {
-            Die();
+            StartCoroutine(DieRoutine());
         }
     }
 
-    // 👇 เปลี่ยนจาก Destroy เป็นแค่ปิดตัวตนไว้ก่อน เพื่อให้ Reset ได้
-    protected virtual void Die()
+    protected virtual IEnumerator DieRoutine()
     {
-        Debug.Log("💀 " + gameObject.name + " ถูกกำจัด!");
-        gameObject.SetActive(false);
+        isBusy = true;
+        rb.linearVelocity = Vector2.zero;
+
+        if (animator != null) animator.SetTrigger("Dead");
+
+        // Wait 1 second for the death animation to finish
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(gameObject);
     }
 
-    // 👇 ฟังก์ชัน Reset ที่จะถูกเรียกจาก Player
+    public void TriggerDamageFlash()
+    {
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(DamageFlashRoutine());
+    }
+
+    private IEnumerator DamageFlashRoutine()
+    {
+        if (spriteRenderer == null || flashMaterial == null) yield break;
+
+        spriteRenderer.material = flashMaterial;
+        Material instanceMaterial = spriteRenderer.material;
+
+        float timer = 0f;
+        while (timer < flashDuration)
+        {
+            if (spriteRenderer.sprite != null)
+            {
+                instanceMaterial.SetTexture(flashTextureProperty, spriteRenderer.sprite.texture);
+            }
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        spriteRenderer.material = originalMaterial;
+        flashCoroutine = null;
+    }
+
+    private void DetectTextureProperty()
+    {
+        if (flashMaterial == null) return;
+        if (flashMaterial.HasProperty("_MainTex")) flashTextureProperty = "_MainTex";
+        else if (flashMaterial.HasProperty("_BaseMap")) flashTextureProperty = "_BaseMap";
+    }
+
     public virtual void ResetObject()
     {
-        gameObject.SetActive(true); // ปลุกให้ตื่น
-        transform.position = startPosition; // วาร์ปกลับที่เดิม
+        isBusy = false;
+        gameObject.SetActive(true);
+        transform.position = startPosition;
         transform.rotation = startRotation;
-        currentHealth = maxHealth; // เลือดเต็ม
+        transform.localScale = originalScale; // Restore size
+        currentHealth = maxHealth;
 
-        if (rb != null) rb.linearVelocity = Vector2.zero; // หยุดความเร็วค้าง
-        Debug.Log(gameObject.name + " Reset เรียบร้อย!");
+        if (spriteRenderer != null && originalMaterial != null)
+            spriteRenderer.material = originalMaterial;
+
+        if (rb != null) rb.linearVelocity = Vector2.zero;
+
+        if (animator != null)
+        {
+            animator.Rebind();
+            animator.Update(0f);
+        }
     }
 }

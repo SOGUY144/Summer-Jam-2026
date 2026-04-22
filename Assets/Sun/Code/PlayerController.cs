@@ -12,6 +12,17 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 1.2f;
     private float nextDashTime = 0f;
     private bool isDashing = false;
+    private bool isDrinking = false; // New state to lock movement
+
+    // This property allows HydrationSystem to check for I-frames
+    public bool IsInvincible { get; private set; } = false;
+
+    [Header("Visual Effects - Flash")]
+    public Material flashMaterial;
+    private Material originalMaterial;
+    public float flashDuration = 0.15f;
+    private Coroutine flashCoroutine;
+    public string flashTextureProperty = "_MainTex";
 
     [Header("Physics & Logic")]
     private Rigidbody2D rb;
@@ -31,23 +42,22 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
+        if (spriteRenderer != null)
+            originalMaterial = spriteRenderer.sharedMaterial;
+
+        // Check initial facing direction based on rotation
         facingRight = Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, 0f)) < 1f;
-
-        if (animator != null)
-        {
-            animator.SetBool("IsWalking", false);
-            animator.SetBool("IsJumping", false);
-            animator.SetBool("IsFalling", false);
-        }
     }
 
     void Update()
     {
-        if (PauseMenu.IsPaused) return; // หยุดรับ Input ทั้งหมดตอน Pause
-        if (isDashing) return;
+        // Basic checks for Pause, Dash, and Drinking state
+        if (PauseMenu.IsPaused) return;
+        if (isDashing || isDrinking) return; // Lock input if drinking
 
+        // Integration with PlayerSkills (if exists)
         PlayerSkills skills = GetComponent<PlayerSkills>();
         bool isBusy = (skills != null && skills.IsBusy);
 
@@ -64,17 +74,18 @@ public class PlayerController : MonoBehaviour
             IsWalking = moveInput != 0;
         }
 
+        // Ground check for jumping
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
         if (Input.GetButtonDown("Jump") && isGrounded && !isBusy)
-        {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-        }
 
+        // State detection for animations
         float vy = rb.linearVelocity.y;
         IsJumping = !isGrounded && vy > verticalThreshold;
         IsFalling = !isGrounded && vy < -verticalThreshold;
 
+        // Dash Input
         if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time >= nextDashTime && !isBusy)
         {
             if (animator != null) animator.SetTrigger("Dash");
@@ -86,10 +97,52 @@ public class PlayerController : MonoBehaviour
         UpdateAnimation();
     }
 
+    IEnumerator Dash()
+    {
+        isDashing = true;
+        IsInvincible = true; // Start I-Frames
+
+        float gravity = rb.gravityScale;
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+        rb.gravityScale = 0;
+
+        // Visual feedback for I-Frames: transparency
+        if (spriteRenderer != null)
+        {
+            Color c = spriteRenderer.color;
+            c.a = 0.5f;
+            spriteRenderer.color = c;
+        }
+
+        float dashYrotation = facingRight ? 0f : -180f;
+        GameObject fx = Instantiate(DashFx, transform.position, Quaternion.Euler(0f, dashYrotation, 0f));
+        fx.transform.parent = transform;
+
+        float moveInput = Input.GetAxisRaw("Horizontal");
+        float dashDirection = moveInput != 0 ? moveInput : (facingRight ? 1 : -1);
+
+        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0);
+
+        yield return new WaitForSeconds(0.2f); // Dash duration
+
+        // Reset state and visuals
+        if (spriteRenderer != null)
+        {
+            Color c = spriteRenderer.color;
+            c.a = 1f;
+            spriteRenderer.color = c;
+        }
+
+        rb.gravityScale = gravity;
+        Destroy(fx);
+
+        IsInvincible = false; // End I-Frames
+        isDashing = false;
+    }
+
     private void Flip()
     {
-        if (PauseMenu.IsPaused) return; // หยุดหันซ้ายขวาตอน Pause
-
+        if (PauseMenu.IsPaused) return;
         float moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput > 0f && !facingRight)
         {
@@ -111,35 +164,67 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("IsFalling", IsFalling);
     }
 
-    IEnumerator Dash()
+    public void TriggerDamageFlash()
     {
-        isDashing = true;
-        float gravity = rb.gravityScale;
-        rb.gravityScale = 0;
-
-        float dashYrotation = facingRight ? 0f : -180f;
-        GameObject newObject = Instantiate(DashFx, transform.position, Quaternion.Euler(0f, dashYrotation, 0f));
-        newObject.transform.parent = transform;
-
-        float moveInput = Input.GetAxisRaw("Horizontal");
-        float dashDirection = moveInput != 0 ? moveInput : (facingRight ? 1 : -1);
-
-        rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0);
-
-        yield return new WaitForSeconds(0.2f);
-
-        rb.gravityScale = gravity;
-        Destroy(newObject);
-        isDashing = false;
+        if (flashCoroutine != null) StopCoroutine(flashCoroutine);
+        flashCoroutine = StartCoroutine(DamageFlashRoutine());
     }
 
-    public void LoadLastSavePoint()
+    private IEnumerator DamageFlashRoutine()
     {
-        if (PlayerPrefs.HasKey("SafeX"))
+        if (spriteRenderer == null || flashMaterial == null) yield break;
+        spriteRenderer.material = flashMaterial;
+        Material instanceMaterial = spriteRenderer.material;
+
+        float timer = 0f;
+        while (timer < flashDuration)
         {
-            float x = PlayerPrefs.GetFloat("SafeX");
-            float y = PlayerPrefs.GetFloat("SafeY");
-            transform.position = new Vector2(x, y);
+            if (spriteRenderer.sprite != null && spriteRenderer.sprite.texture != null)
+            {
+                string propName = string.IsNullOrEmpty(flashTextureProperty) ? "_MainTex" : flashTextureProperty;
+                instanceMaterial.SetTexture(propName, spriteRenderer.sprite.texture);
+            }
+            timer += Time.deltaTime;
+            yield return null;
         }
+        ResetMaterial();
+    }
+
+    public void ResetMaterial()
+    {
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(flashCoroutine);
+            flashCoroutine = null;
+        }
+        if (spriteRenderer != null && originalMaterial != null)
+            spriteRenderer.material = originalMaterial;
+    }
+
+    private void OnDisable() => ResetMaterial();
+
+    public void TriggerDrink(float duration)
+    {
+        // Only allow drinking if not already drinking, and not moving/in air
+        if (!isDrinking && !IsWalking && !IsJumping && !IsFalling)
+        {
+            StartCoroutine(DrinkRoutine(duration));
+        }
+    }
+
+    private IEnumerator DrinkRoutine(float duration)
+    {
+        isDrinking = true;
+
+        // Stop movement immediately
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        IsWalking = false;
+        UpdateAnimation();
+
+        if (animator != null) animator.SetTrigger("Drink");
+
+        yield return new WaitForSeconds(duration);
+
+        isDrinking = false;
     }
 }
