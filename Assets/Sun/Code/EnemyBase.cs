@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public abstract class EnemyBase : MonoBehaviour, IResettable
@@ -15,6 +15,10 @@ public abstract class EnemyBase : MonoBehaviour, IResettable
     private Material originalMaterial;
     private Coroutine flashCoroutine;
     private string flashTextureProperty = "_MainTex";
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip hitSound;
 
     [Header("Animations")]
     public Animator animator;
@@ -48,6 +52,11 @@ public abstract class EnemyBase : MonoBehaviour, IResettable
     public virtual void TakeDamage(float damage)
     {
         if (isBusy && currentHealth <= 0) return; // Prevent double death
+
+        if (audioSource != null && hitSound != null)
+        {
+            audioSource.PlayOneShot(hitSound);
+        }
 
         currentHealth -= damage;
         TriggerDamageFlash();

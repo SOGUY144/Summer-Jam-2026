@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerSkills : MonoBehaviour
 {
+    [Header("Audio Requirements")]
+    public AudioSource skillAudioSource;
+
     [Header("Aether Skill (Button F)")]
     public GameObject platformPrefab;
     public float platformDuration = 3f;
@@ -11,6 +14,9 @@ public class PlayerSkills : MonoBehaviour
     public float hammerPreDelay = 0.05f;
     public float aetherCooldown = 2f;
     private float nextAetherTime = 0f;
+    public AudioClip chargeStartSound;
+    public AudioClip platformCreateSound;
+    public AudioClip hammerSmashSound;
 
     [Header("Charge Visuals")]
     public Color normalColor = Color.white;
@@ -21,11 +27,14 @@ public class PlayerSkills : MonoBehaviour
     public float superJumpForce = 25f;
     public float jumpCooldown = 3f;
     private float nextJumpTime = 0f;
+    public AudioClip steamJumpSound;
 
     [Header("Smoke Screen (Button V)")]
     public float stealthDuration = 3f;
     public float stealthCooldown = 5f;
     private float nextStealthTime = 0f;
+    public AudioClip stealthActivateSound;
+    public AudioClip stealthDeactivateSound;
 
     [Header("Animation Parameters")]
     public Animator animator;
@@ -40,6 +49,7 @@ public class PlayerSkills : MonoBehaviour
 
     private bool isCharging = false;
     private bool isPerformingSmash = false;
+    private bool hasPlayedChargeSound = false;
 
     public bool IsBusy => isCharging || isPerformingSmash;
 
@@ -75,6 +85,7 @@ public class PlayerSkills : MonoBehaviour
         {
             buttonPressTime = Time.time;
             isCharging = true;
+            hasPlayedChargeSound = false;
             if (animator) animator.SetBool(animChargeBool, true);
         }
 
@@ -84,6 +95,14 @@ public class PlayerSkills : MonoBehaviour
             rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
 
             float holdDuration = Time.time - buttonPressTime;
+            
+            // ถ้ากดค้างนานกว่า 0.15 วินาทีถึงจะเริ่มเล่นเสียงชาร์จ
+            if (holdDuration >= 0.15f && !hasPlayedChargeSound)
+            {
+                if (skillAudioSource != null && chargeStartSound != null) skillAudioSource.PlayOneShot(chargeStartSound);
+                hasPlayedChargeSound = true;
+            }
+
             if (holdDuration >= chargeTimeThreshold)
             {
                 sr.color = readyColor;
@@ -112,6 +131,7 @@ public class PlayerSkills : MonoBehaviour
                 CreatePlatform();
                 sr.color = normalColor;
                 nextAetherTime = Time.time + aetherCooldown;
+                if (skillAudioSource != null && platformCreateSound != null) skillAudioSource.PlayOneShot(platformCreateSound);
             }
         }
     }
@@ -130,6 +150,8 @@ public class PlayerSkills : MonoBehaviour
         }
 
         yield return new WaitForSeconds(hammerPreDelay);
+
+        if (skillAudioSource != null && hammerSmashSound != null) skillAudioSource.PlayOneShot(hammerSmashSound);
 
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, hammerPower);
 
@@ -169,15 +191,18 @@ public class PlayerSkills : MonoBehaviour
     private void SteamSuperJump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, superJumpForce);
+        if (skillAudioSource != null && steamJumpSound != null) skillAudioSource.PlayOneShot(steamJumpSound);
     }
 
     private IEnumerator StealthRoutine()
     {
         if (animator) animator.SetTrigger(animStealthTrigger);
+        if (skillAudioSource != null && stealthActivateSound != null) skillAudioSource.PlayOneShot(stealthActivateSound);
         gameObject.layer = LayerMask.NameToLayer("StealthPlayer");
         yield return new WaitForSeconds(0.5f);
         sr.color = new Color(normalColor.r, normalColor.g, normalColor.b, 0.4f);
         yield return new WaitForSeconds(stealthDuration);
+        if (skillAudioSource != null && stealthDeactivateSound != null) skillAudioSource.PlayOneShot(stealthDeactivateSound);
         sr.color = normalColor;
         gameObject.layer = originalLayer;
     }
