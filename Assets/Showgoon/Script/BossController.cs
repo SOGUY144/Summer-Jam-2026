@@ -25,6 +25,10 @@ public class BossStateMachine : MonoBehaviour
     public float laserDamageCooldown = 1.0f;
     public float laserThickness = 0.5f; // เพิ่มความกว้างขึ้นเล็กน้อยเพื่อให้โดนง่ายขึ้น
     public LayerMask playerLayer; // ตั้งค่าให้ตรวจจับเฉพาะ Layer ของ Player
+    [Tooltip("Debug draw the laser ray / circlecast path at runtime")]
+    public bool drawLaserDebug = true;
+    public Color laserDebugColor = Color.red;
+    public Color laserHitColor = Color.green;
 
     [Header("Sweep Laser Setting")]
     public float laserChargeTime = 1f;
@@ -172,12 +176,12 @@ public class BossStateMachine : MonoBehaviour
         isAttacking = true;
         if (bodyAnim) bodyAnim.SetTrigger("BossCharge");
         if (bossAudioSource != null && laserChargeSound != null) bossAudioSource.PlayOneShot(laserChargeSound);
-        
+
         yield return new WaitForSeconds(laserChargeTime);
 
-        laser.enabled = true;
+        if (laser != null) laser.enabled = true;
         if (bossAudioSource != null && laserSweepSound != null) bossAudioSource.PlayOneShot(laserSweepSound);
-        
+
         float timer = 0f;
 
         while (timer < laserDuration)
@@ -186,20 +190,43 @@ public class BossStateMachine : MonoBehaviour
             float angle = Mathf.Lerp(sweepStartAngle, sweepEndAngle, t);
 
             // Calculate direction based on angle
-            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+            Vector2 dir2 = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+            Vector3 dir = new Vector3(dir2.x, dir2.y, 0f);
             Vector3 start = laserPoint.position;
-            Vector3 end = start + (Vector3)dir * laserDistance;
+            Vector3 end = start + dir * laserDistance;
 
             // Visuals
-            laser.SetPosition(0, start);
-            laser.SetPosition(1, end);
+            if (laser != null)
+            {
+                laser.SetPosition(0, start);
+                laser.SetPosition(1, end);
+            }
 
             // DAMAGE CHECK: CircleCast works like a thick raycast
-            // ใช้ LayerMask เพื่อความแม่นยำและประสิทธิภาพ
-            RaycastHit2D hit = Physics2D.CircleCast(start, laserThickness, dir, laserDistance, playerLayer);
+            RaycastHit2D hit = Physics2D.CircleCast(start, laserThickness, dir2, laserDistance, playerLayer);
 
-            // Debug Line ในหน้า Scene (จะเห็นเป็นสีแดงเมื่อเลเซอร์ทำงาน)
-            Debug.DrawRay(start, dir * laserDistance, Color.red);
+            // DEBUG DRAW: show the ray and thickness
+            if (drawLaserDebug)
+            {
+                // main center line
+                Debug.DrawLine(start, end, laserDebugColor);
+
+                // draw two offset lines to represent thickness
+                Vector3 perp = new Vector3(-dir.y, dir.x, 0f).normalized * laserThickness;
+                Debug.DrawLine(start + perp, end + perp, laserDebugColor);
+                Debug.DrawLine(start - perp, end - perp, laserDebugColor);
+
+                // draw small end caps
+                Debug.DrawLine(end - perp * 0.2f, end + perp * 0.2f, laserDebugColor);
+
+                // if hit, mark the hit point and normal
+                if (hit.collider != null)
+                {
+                    Vector3 hitPoint = hit.point;
+                    Debug.DrawLine(hitPoint - perp * 0.4f, hitPoint + perp * 0.4f, laserHitColor);
+                    Debug.DrawRay(hitPoint, hit.normal, laserHitColor);
+                }
+            }
 
             if (hit.collider != null)
             {
@@ -222,7 +249,7 @@ public class BossStateMachine : MonoBehaviour
             yield return null;
         }
 
-        laser.enabled = false;
+        if (laser != null) laser.enabled = false;
         isAttacking = false;
     }
 
@@ -234,7 +261,7 @@ public class BossStateMachine : MonoBehaviour
 
         if (bossAudioSource != null && smokeReleaseSound != null) bossAudioSource.PlayOneShot(smokeReleaseSound);
         smokeObject.SetActive(true);
-        
+
         yield return new WaitForSeconds(smokeDuration);
         smokeObject.SetActive(false);
 
@@ -249,7 +276,7 @@ public class BossStateMachine : MonoBehaviour
         for (int i = 0; i < repeat; i++)
         {
             Animator hand = GetNearestHand();
-            
+
             if (bossAudioSource != null && plasmaChargeSound != null) bossAudioSource.PlayOneShot(plasmaChargeSound);
             yield return new WaitForSeconds(plasmaChargeTime);
 
@@ -257,14 +284,14 @@ public class BossStateMachine : MonoBehaviour
 
             Transform firePoint = (hand == leftHandAnim) ? leftFirePoint : rightFirePoint;
             GameObject plasma = Instantiate(plasmaPrefab, firePoint.position, Quaternion.identity);
-            
+
             if (bossAudioSource != null && plasmaShootSound != null) bossAudioSource.PlayOneShot(plasmaShootSound);
 
             Vector2 targetPos = (Vector2)player.position + new Vector2(0, 0.5f);
-            Vector2 dir = (targetPos - (Vector2)firePoint.position).normalized;
+            Vector2 dirVec = (targetPos - (Vector2)firePoint.position).normalized;
 
             Rigidbody2D rb = plasma.GetComponent<Rigidbody2D>();
-            if (rb != null) rb.linearVelocity = dir * plasmaSpeed;
+            if (rb != null) rb.linearVelocity = dirVec * plasmaSpeed;
 
             yield return new WaitForSeconds(0.5f);
         }

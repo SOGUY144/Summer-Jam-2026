@@ -4,7 +4,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0350989-3717-4936-a92d-741d56746880" name="Changes" comment="" />
+    <list default="true" id="b0350989-3717-4936-a92d-741d56746880" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Boss Smoke.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Boss Smoke.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Charge-01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Charge-01.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Charge.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Charge.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Dash-V1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Dash-V1.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Enemy Get hit-01 (1).wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Enemy Get hit-01 (1).wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Enemy Get hit-01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Enemy Get hit-01.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Gas-V1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Gas-V1.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Hammer Hit-01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Hammer Hit-01.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Jump-V2.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Jump-V2.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Laser.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Laser.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Run on Tile-02.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Run on Tile-02.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Super Jump-V2.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Super Jump-V2.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Walk on Tile-01.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/Walk on Tile-01.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/plasma ball.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/plasma ball.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/walk in pipe-001.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/walk in pipe-001.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ตี-1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ตี-1.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ตี-2.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ตี-2.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ยิง-1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/ยิง-1.wav.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/สร้างแพลตฟอร์ม-V1.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/GUY/สร้างแพลตฟอร์ม-V1.wav.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/GUY/GUY.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GUY/GUY.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Showgoon/Goon.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Showgoon/Goon.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Showgoon/Script/BossController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Showgoon/Script/BossController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sun/Code/EnemyBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sun/Code/EnemyBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sun/Code/FlyingWaterEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sun/Code/FlyingWaterEnemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sun/Code/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sun/Code/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sun/Code/PlayerSkills.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sun/Code/PlayerSkills.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sun/Code/WalkingHeatEnemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sun/Code/WalkingHeatEnemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +61,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="3CYXqCaL9hO2f87BYkmXLWnsgEn" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -24,7 +72,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Merging main"
   }
 }]]></component>
   <component name="SharedIndexes">

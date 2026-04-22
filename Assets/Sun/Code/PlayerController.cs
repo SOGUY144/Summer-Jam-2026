@@ -19,23 +19,20 @@ public class PlayerController : MonoBehaviour
     private bool isDrinking = false;
 
     [Header("Visual Effects - Flash")]
+    [Tooltip("A material with a solid white shader (e.g., GUI/Text Shader or a custom Flash shader)")]
     public Material flashMaterial;
     private Material originalMaterial;
     public float flashDuration = 0.15f;
     private Coroutine flashCoroutine;
-    [Tooltip("The shader property name for the texture, usually _MainTex")]
-    public string flashTextureProperty = "_MainTex";
-
-    // Using Property IDs is significantly faster than using strings in loops
-    private int shaderTextureId;
+    private Material instanceMaterial; // ADD THIS
 
     [Header("Audio")]
     public AudioSource footstepAudioSource;
-    public AudioClip jumpSound;                 // เสียงตอนกระโดด
-    public AudioClip dashSound;                 // เสียงตอนพุ่ง (Dash)
-    public AudioClip[] tileFootstepSounds;      // เสียงเดินบนห้องแล็บ
-    public AudioClip[] pipeFootstepSounds;      // เสียงเดินบนท่อ
-    public float footstepInterval = 0.35f;      // ความถี่ของเสียง (วินาที)
+    public AudioClip jumpSound;
+    public AudioClip dashSound;
+    public AudioClip[] tileFootstepSounds;
+    public AudioClip[] pipeFootstepSounds;
+    public float footstepInterval = 0.35f;
     private float nextFootstepTime = 0f;
 
     [Header("Physics & Logic")]
@@ -61,19 +58,18 @@ public class PlayerController : MonoBehaviour
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (spriteRenderer != null)
-            originalMaterial = spriteRenderer.sharedMaterial;
-
-        // Cache the shader property ID once to avoid string lookups every frame
-        shaderTextureId = Shader.PropertyToID(string.IsNullOrEmpty(flashTextureProperty) ? "_MainTex" : flashTextureProperty);
+        {
+            // Use .material (not .sharedMaterial) to get a per-instance copy
+            instanceMaterial = spriteRenderer.material;
+            originalMaterial = instanceMaterial;
+        }
 
         facingRight = Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, 0f)) < 1f;
     }
 
     void Update()
     {
-        // Check static pause state
         if (PauseMenu.IsPaused) return;
-
         if (isDashing || isDrinking) return;
 
         HandleMovement();
@@ -124,14 +120,11 @@ public class PlayerController : MonoBehaviour
     {
         if (footstepAudioSource == null) return;
 
-        AudioClip[] currentClips = tileFootstepSounds; 
+        AudioClip[] currentClips = tileFootstepSounds;
 
-        if (currentGroundCollider != null)
+        if (currentGroundCollider != null && currentGroundCollider.CompareTag("Pipe"))
         {
-            if (currentGroundCollider.CompareTag("Pipe"))
-            {
-                currentClips = pipeFootstepSounds;
-            }
+            currentClips = pipeFootstepSounds;
         }
 
         if (currentClips != null && currentClips.Length > 0)
@@ -249,26 +242,9 @@ public class PlayerController : MonoBehaviour
     {
         if (spriteRenderer == null || flashMaterial == null) yield break;
 
-        // Apply flash material
-        spriteRenderer.material = flashMaterial;
+        spriteRenderer.material = flashMaterial; // instance swap, not shared
 
-        // Cache the material instance locally for the loop
-        Material activeMat = spriteRenderer.material;
-        float elapsed = 0f;
-
-        // FASTEST LOOP: Update texture every single frame using cached integer ID
-        while (elapsed < flashDuration)
-        {
-            Sprite currentSprite = spriteRenderer.sprite;
-            if (currentSprite != null)
-            {
-                // Update the shader texture to match current animation frame
-                activeMat.SetTexture(shaderTextureId, currentSprite.texture);
-            }
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(flashDuration);
 
         ResetMaterial();
     }
@@ -282,7 +258,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (spriteRenderer != null && originalMaterial != null)
-            spriteRenderer.material = originalMaterial;
+        {
+            spriteRenderer.material = originalMaterial; // instance, not shared
+        }
     }
 
     private void OnDisable() => ResetMaterial();
