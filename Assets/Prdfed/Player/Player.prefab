@@ -142,16 +142,23 @@ MonoBehaviour:
   moveSpeed: 8
   jumpForce: 12
   dashSpeed: 20
+  dashCooldown: 1.2
+  flashMaterial: {fileID: -876546973899608171, guid: 1bed4a2e50b5b8a458995a53f70ea6ea, type: 3}
+  flashDuration: 0.15
+  flashTextureProperty: _MainTex
+  footstepAudioSource: {fileID: 0}
+  jumpSound: {fileID: 0}
+  dashSound: {fileID: 0}
+  tileFootstepSounds: []
+  pipeFootstepSounds: []
+  footstepInterval: 0.35
   groundCheck: {fileID: 7521813039439464505}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   animator: {fileID: 9102711552376036578}
-  IsWalking: 0
-  IsJumping: 0
-  IsFalling: 0
-  DashFx: {fileID: 5320036593496702234, guid: b50e3fb1b8e763a4095376f85effa68a, type: 3}
   spriteRenderer: {fileID: 4713750660231680251}
+  DashFx: {fileID: 5320036593496702234, guid: b50e3fb1b8e763a4095376f85effa68a, type: 3}
 --- !u!50 &6078491197960612210
 Rigidbody2D:
   serializedVersion: 5
@@ -191,16 +198,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 999cb4d40349fae4e96b25ca2b533dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillAudioSource: {fileID: 0}
   platformPrefab: {fileID: 8364085575532250992, guid: a76c49fdc307e644f9595a2cd5dcf76b, type: 3}
   platformDuration: 3
   chargeTimeThreshold: 0.7
   hammerPower: -30
   hammerPreDelay: 0.05
+  aetherCooldown: 2
+  chargeStartSound: {fileID: 0}
+  platformCreateSound: {fileID: 0}
+  hammerSmashSound: {fileID: 0}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   chargingColor: {r: 1, g: 0.5, b: 0, a: 1}
   readyColor: {r: 1, g: 0, b: 0, a: 1}
   superJumpForce: 25
+  jumpCooldown: 3
+  steamJumpSound: {fileID: 0}
   stealthDuration: 3
+  stealthCooldown: 5
+  stealthActivateSound: {fileID: 0}
+  stealthDeactivateSound: {fileID: 0}
   animator: {fileID: 9102711552376036578}
   animChargeBool: IsCharging
   animAttackTrigger: HammerAttack
@@ -294,10 +311,13 @@ MonoBehaviour:
   coolDownRate: 15
   overheatDamageRate: 10
   sodaDecreaseAmount: 50
+  sodaHealAmount: 20
+  hpFillImage: {fileID: 0}
   hydroricSlider: {fileID: 0}
   hydroricFillImage: {fileID: 0}
   shieldUI: {fileID: 7069270754907261628}
   shieldAnimator: {fileID: 0}
+  shieldEffectObject: {fileID: 0}
   isInHotZone: 0
   isShieldActive: 0
   isOverheated: 0
