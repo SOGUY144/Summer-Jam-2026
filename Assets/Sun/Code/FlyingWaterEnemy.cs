@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class FlyingWaterEnemy : EnemyBase
@@ -12,6 +12,10 @@ public class FlyingWaterEnemy : EnemyBase
     public Transform firePoint;
     public float fireRate = 2f;
     private float nextFireTime;
+
+    [Header("Audio Effects")]
+    public AudioClip attackChargeSound;
+    public AudioClip attackShootSound;
 
     protected override void Start()
     {
@@ -73,6 +77,11 @@ public class FlyingWaterEnemy : EnemyBase
 
         if (animator != null) animator.SetTrigger("Attack");
 
+        if (audioSource != null && attackChargeSound != null)
+        {
+            audioSource.PlayOneShot(attackChargeSound);
+        }
+
         // Wait 1 second for the shooting animation to reach the "fire" frame
         yield return new WaitForSeconds(1.0f);
 
@@ -81,6 +90,11 @@ public class FlyingWaterEnemy : EnemyBase
         {
             Debug.Log("💦 ยิงปืนแรงดันน้ำ!");
             GameObject bullet = Instantiate(waterBulletPrefab, firePoint.position, Quaternion.identity);
+
+            if (audioSource != null && attackShootSound != null)
+            {
+                audioSource.PlayOneShot(attackShootSound);
+            }
 
             // Assuming the bullet has a Launch method
             var bulletScript = bullet.GetComponent<WaterBullet>();

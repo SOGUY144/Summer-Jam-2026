@@ -12,6 +12,7 @@ public class BossStateMachine : MonoBehaviour
     }
 
     [Header("References")]
+    public AudioSource bossAudioSource;
     public Animator bodyAnim;
     public Animator leftHandAnim;
     public Animator rightHandAnim;
@@ -22,8 +23,8 @@ public class BossStateMachine : MonoBehaviour
     public LineRenderer laser;
     public float laserDamageAmount = 30f;
     public float laserDamageCooldown = 1.0f;
-    public float laserThickness = 0.5f; // ‡æ‘Ë¡§«“¡°«È“ß¢÷Èπ‡≈Á°πÈÕ¬‡æ◊ËÕ„ÀÈ‚¥πßË“¬¢÷Èπ
-    public LayerMask playerLayer; // µ—Èß§Ë“„ÀÈµ√«®®—∫‡©æ“– Layer ¢Õß Player
+    public float laserThickness = 0.5f; // ‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏Ñ‡∏ß‡∏≤‡∏°‡∏Å‡∏ß‡πâ‡∏≤‡∏á‡∏Ç‡∏∂‡πâ‡∏ô‡πÄ‡∏•‡πá‡∏Å‡∏ô‡πâ‡∏≠‡∏¢‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÉ‡∏´‡πâ‡πÇ‡∏î‡∏ô‡∏á‡πà‡∏≤‡∏¢‡∏Ç‡∏∂‡πâ‡∏ô
+    public LayerMask playerLayer; // ‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤‡πÉ‡∏´‡πâ‡∏ï‡∏£‡∏ß‡∏à‡∏à‡∏±‡∏ö‡πÄ‡∏â‡∏û‡∏≤‡∏∞ Layer ‡∏Ç‡∏≠‡∏á Player
 
     [Header("Sweep Laser Setting")]
     public float laserChargeTime = 1f;
@@ -31,10 +32,13 @@ public class BossStateMachine : MonoBehaviour
     public float laserDistance = 15f;
     public float sweepStartAngle = -60f;
     public float sweepEndAngle = 60f;
+    public AudioClip laserChargeSound;
+    public AudioClip laserSweepSound;
 
     [Header("Smoke")]
     public GameObject smokeObject;
     public float smokeDuration = 5f;
+    public AudioClip smokeReleaseSound;
 
     [Header("Plasma")]
     public GameObject plasmaPrefab;
@@ -44,6 +48,8 @@ public class BossStateMachine : MonoBehaviour
     public float plasmaChargeTime = 0.35f;
     public int plasmaMin = 3;
     public int plasmaMax = 5;
+    public AudioClip plasmaChargeSound;
+    public AudioClip plasmaShootSound;
 
     [Header("Timing")]
     public float attackInterval = 2f;
@@ -165,9 +171,13 @@ public class BossStateMachine : MonoBehaviour
     {
         isAttacking = true;
         if (bodyAnim) bodyAnim.SetTrigger("BossCharge");
+        if (bossAudioSource != null && laserChargeSound != null) bossAudioSource.PlayOneShot(laserChargeSound);
+        
         yield return new WaitForSeconds(laserChargeTime);
 
         laser.enabled = true;
+        if (bossAudioSource != null && laserSweepSound != null) bossAudioSource.PlayOneShot(laserSweepSound);
+        
         float timer = 0f;
 
         while (timer < laserDuration)
@@ -185,10 +195,10 @@ public class BossStateMachine : MonoBehaviour
             laser.SetPosition(1, end);
 
             // DAMAGE CHECK: CircleCast works like a thick raycast
-            // „™È LayerMask ‡æ◊ËÕ§«“¡·¡Ëπ¬”·≈–ª√– ‘∑∏‘¿“æ
+            // ‡πÉ‡∏ä‡πâ LayerMask ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°‡πÅ‡∏°‡πà‡∏ô‡∏¢‡∏≥‡πÅ‡∏•‡∏∞‡∏õ‡∏£‡∏∞‡∏™‡∏¥‡∏ó‡∏ò‡∏¥‡∏†‡∏≤‡∏û
             RaycastHit2D hit = Physics2D.CircleCast(start, laserThickness, dir, laserDistance, playerLayer);
 
-            // Debug Line „πÀπÈ“ Scene (®–‡ÀÁπ‡ªÁπ ’·¥ß‡¡◊ËÕ‡≈‡´Õ√Ï∑”ß“π)
+            // Debug Line ‡πÉ‡∏ô‡∏´‡∏ô‡πâ‡∏≤ Scene (‡∏à‡∏∞‡πÄ‡∏´‡πá‡∏ô‡πÄ‡∏õ‡πá‡∏ô‡∏™‡∏µ‡πÅ‡∏î‡∏á‡πÄ‡∏°‡∏∑‡πà‡∏≠‡πÄ‡∏•‡πÄ‡∏ã‡∏≠‡∏£‡πå‡∏ó‡∏≥‡∏á‡∏≤‡∏ô)
             Debug.DrawRay(start, dir * laserDistance, Color.red);
 
             if (hit.collider != null)
@@ -222,7 +232,9 @@ public class BossStateMachine : MonoBehaviour
         Animator hand = GetNearestHand();
         if (hand) hand.SetTrigger("Smoke_Relese");
 
+        if (bossAudioSource != null && smokeReleaseSound != null) bossAudioSource.PlayOneShot(smokeReleaseSound);
         smokeObject.SetActive(true);
+        
         yield return new WaitForSeconds(smokeDuration);
         smokeObject.SetActive(false);
 
@@ -237,12 +249,16 @@ public class BossStateMachine : MonoBehaviour
         for (int i = 0; i < repeat; i++)
         {
             Animator hand = GetNearestHand();
+            
+            if (bossAudioSource != null && plasmaChargeSound != null) bossAudioSource.PlayOneShot(plasmaChargeSound);
             yield return new WaitForSeconds(plasmaChargeTime);
 
             if (hand) hand.SetTrigger("Plasma");
 
             Transform firePoint = (hand == leftHandAnim) ? leftFirePoint : rightFirePoint;
             GameObject plasma = Instantiate(plasmaPrefab, firePoint.position, Quaternion.identity);
+            
+            if (bossAudioSource != null && plasmaShootSound != null) bossAudioSource.PlayOneShot(plasmaShootSound);
 
             Vector2 targetPos = (Vector2)player.position + new Vector2(0, 0.5f);
             Vector2 dir = (targetPos - (Vector2)firePoint.position).normalized;
