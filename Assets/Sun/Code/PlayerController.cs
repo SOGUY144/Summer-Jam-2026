@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,9 +29,19 @@ public class PlayerController : MonoBehaviour
     // Using Property IDs is significantly faster than using strings in loops
     private int shaderTextureId;
 
+    [Header("Audio")]
+    public AudioSource footstepAudioSource;
+    public AudioClip jumpSound;                 // เสียงตอนกระโดด
+    public AudioClip dashSound;                 // เสียงตอนพุ่ง (Dash)
+    public AudioClip[] tileFootstepSounds;      // เสียงเดินบนห้องแล็บ
+    public AudioClip[] pipeFootstepSounds;      // เสียงเดินบนท่อ
+    public float footstepInterval = 0.35f;      // ความถี่ของเสียง (วินาที)
+    private float nextFootstepTime = 0f;
+
     [Header("Physics & Logic")]
     private Rigidbody2D rb;
     private bool isGrounded;
+    private Collider2D currentGroundCollider;
     public Transform groundCheck;
     public LayerMask groundLayer;
     public Animator animator;
@@ -69,6 +79,7 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleJump();
         HandleDashInput();
+        HandleFootsteps();
 
         Flip();
         UpdateAnimationParameters();
@@ -83,15 +94,52 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        currentGroundCollider = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        isGrounded = currentGroundCollider != null;
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            if (footstepAudioSource != null && jumpSound != null)
+            {
+                footstepAudioSource.pitch = 1f;
+                footstepAudioSource.PlayOneShot(jumpSound);
+            }
         }
 
         float vy = rb.linearVelocity.y;
         IsJumping = !isGrounded && vy > verticalThreshold;
         IsFalling = !isGrounded && vy < -verticalThreshold;
+    }
+
+    private void HandleFootsteps()
+    {
+        if (IsWalking && isGrounded && Time.time >= nextFootstepTime)
+        {
+            PlayFootstepSound();
+            nextFootstepTime = Time.time + footstepInterval;
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        if (footstepAudioSource == null) return;
+
+        AudioClip[] currentClips = tileFootstepSounds; 
+
+        if (currentGroundCollider != null)
+        {
+            if (currentGroundCollider.CompareTag("Pipe"))
+            {
+                currentClips = pipeFootstepSounds;
+            }
+        }
+
+        if (currentClips != null && currentClips.Length > 0)
+        {
+            AudioClip clip = currentClips[Random.Range(0, currentClips.Length)];
+            footstepAudioSource.pitch = Random.Range(0.9f, 1.1f);
+            footstepAudioSource.PlayOneShot(clip);
+        }
     }
 
     private void HandleDashInput()
@@ -107,6 +155,12 @@ public class PlayerController : MonoBehaviour
     {
         isDashing = true;
         IsInvincible = true;
+
+        if (footstepAudioSource != null && dashSound != null)
+        {
+            footstepAudioSource.pitch = 1f;
+            footstepAudioSource.PlayOneShot(dashSound);
+        }
 
         float gravity = rb.gravityScale;
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
