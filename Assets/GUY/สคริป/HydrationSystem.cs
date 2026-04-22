@@ -16,12 +16,19 @@ public class HydrationSystem : MonoBehaviour
     public float coolDownRate = 15f;
     public float overheatDamageRate = 10f;
 
+    [Header("Items")]
+    public float sodaDecreaseAmount = 50f;
+    public float sodaHealAmount = 20f;
+
     [Header("UI References")]
     public Image hpFillImage;
     public Slider hydroricSlider;
     public Image hydroricFillImage;
     public GameObject shieldUI;
     public Animator shieldAnimator;
+
+    [Header("Player Visuals")]
+    public GameObject shieldEffectObject;
 
     private PlayerController playerController;
     private float overheatFlashTimer = 0f;
@@ -37,6 +44,8 @@ public class HydrationSystem : MonoBehaviour
         currentHP = maxHP;
         currentHydroric = 0f;
         playerController = GetComponent<PlayerController>();
+
+        if (shieldEffectObject != null) shieldEffectObject.SetActive(false);
         UpdateUI();
     }
 
@@ -44,42 +53,34 @@ public class HydrationSystem : MonoBehaviour
     {
         if (PauseMenu.IsPaused) return;
 
-        // Inputs for items/skills
-        if (Input.GetKeyDown(KeyCode.E)) ConsumeSoda();
+        if (Input.GetKeyDown(KeyCode.E)) AttemptConsumeSoda();
         if (Input.GetKeyDown(KeyCode.Q)) ToggleShield();
 
-        // Environment heat logic
         if (isInHotZone) UpdateHydroric();
         else CoolDown();
 
-        // Damage over time if overheated
-        if (isOverheated) ApplyDamage();
+        if (isOverheated) ApplyOverheatDamage();
 
         UpdateUI();
     }
 
     public void TakeDamage(float damageAmount)
     {
-        // CHECK FOR DASH I-FRAMES
+        // CRITICAL: Check PlayerController for Dash I-Frames
         if (playerController != null && playerController.IsInvincible)
         {
-            Debug.Log("🛡️ Dodged! Damage ignored during Dash.");
+            Debug.Log("🛡️ Dodged! No damage taken during Dash.");
             return;
         }
 
         currentHP -= damageAmount;
         if (playerController != null) playerController.TriggerDamageFlash();
 
-        if (currentHP <= 0)
-        {
-            currentHP = 0;
-            Die();
-        }
+        if (currentHP <= 0) Die();
     }
 
-    private void ApplyDamage()
+    private void ApplyOverheatDamage()
     {
-        // Environmental heat damage
         currentHP -= overheatDamageRate * Time.deltaTime;
 
         overheatFlashTimer += Time.deltaTime;
@@ -90,6 +91,28 @@ public class HydrationSystem : MonoBehaviour
         }
 
         if (currentHP <= 0) Die();
+    }
+
+    private void AttemptConsumeSoda()
+    {
+        if (playerController == null) return;
+
+        // Ensure player is standing still on ground
+        if (!playerController.IsWalking && !playerController.IsJumping && !playerController.IsFalling)
+        {
+            // Lock movement for 2 seconds
+            playerController.TriggerDrink(2.0f);
+
+            // Apply stats
+            currentHydroric = Mathf.Max(0, currentHydroric - sodaDecreaseAmount);
+            currentHP = Mathf.Min(maxHP, currentHP + sodaHealAmount);
+
+            if (currentHydroric <= 0) isOverheated = false;
+        }
+        else
+        {
+            Debug.Log("Cannot drink while moving! Stop first.");
+        }
     }
 
     private void UpdateHydroric()
@@ -119,27 +142,10 @@ public class HydrationSystem : MonoBehaviour
         if (shieldAnimator != null) shieldAnimator.SetBool("IsActive", isShieldActive);
     }
 
-    public void ToggleShield() => isShieldActive = !isShieldActive;
-
-    public void ConsumeSoda()
+    public void ToggleShield()
     {
-        if (playerController != null)
-        {
-            // Only consume and trigger if the player is currently Idle (not walking, jumping, or falling)
-            if (!playerController.IsWalking && !playerController.IsJumping && !playerController.IsFalling)
-            {
-                // Trigger the 2-second movement lock and animation
-                playerController.TriggerDrink(2.0f);
-
-                // Reduce hydration only when the action successfully starts
-                currentHydroric = Mathf.Max(0, currentHydroric - 50f);
-                if (currentHydroric <= 0) isOverheated = false;
-            }
-            else
-            {
-                Debug.Log("Cannot drink while moving! Stop first.");
-            }
-        }
+        isShieldActive = !isShieldActive;
+        if (shieldEffectObject != null) shieldEffectObject.SetActive(isShieldActive);
     }
 
     private void OnTriggerEnter2D(Collider2D collision) { if (collision.CompareTag("HotZone")) isInHotZone = true; }
@@ -153,23 +159,19 @@ public class HydrationSystem : MonoBehaviour
 
     IEnumerator RespawnRoutine()
     {
-        // Disable components for respawn
         GetComponent<SpriteRenderer>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
         if (playerController != null) playerController.enabled = false;
 
         yield return new WaitForSeconds(1.5f);
 
-        // Move to last save point
         if (PlayerPrefs.HasKey("SafeX"))
             transform.position = new Vector2(PlayerPrefs.GetFloat("SafeX"), PlayerPrefs.GetFloat("SafeY"));
 
-        // Reset stats
         currentHP = maxHP;
         currentHydroric = 0f;
         isOverheated = false;
 
-        // Re-enable components
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Collider2D>().enabled = true;
         if (playerController != null) playerController.enabled = true;
