@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Unity/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
-    path: Assets/Stefan/Mainmenu.unity
+    path: Assets/MainScene/RealMainmenu.unity
     guid: d7bf629802b5b9b49b11c6995e8b7b22
   - enabled: 0
     path: Assets/Stefan/Map/Pipe.unity
