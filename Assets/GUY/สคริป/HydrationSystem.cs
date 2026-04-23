@@ -1,12 +1,16 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HydrationSystem : MonoBehaviour
 {
+    // ตัวแปรพิเศษ: จะคงค่าอยู่แม้เปลี่ยน Scene แต่จะรีเซ็ตเมื่อปิดเกม/เปิดใหม่
+    public static bool hasDiedOnce = false;
+
     [Header("Stats")]
     public float maxHP = 100f;
-    public float currentHP;
+    public float currentHP = 20f;
     public float maxHydroric = 100f;
     public float currentHydroric;
 
@@ -30,7 +34,11 @@ public class HydrationSystem : MonoBehaviour
     [Header("Player Visuals")]
     public GameObject shieldEffectObject;
 
+    [Header("Settings")]
+    public LayerMask sunLayer;
+
     private PlayerController playerController;
+    private Rigidbody2D rb;
     private float overheatFlashTimer = 0f;
     private float overheatFlashInterval = 0.2f;
 
@@ -41,9 +49,17 @@ public class HydrationSystem : MonoBehaviour
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        playerController = GetComponent<PlayerController>();
+
         currentHP = maxHP;
         currentHydroric = 0f;
-        playerController = GetComponent<PlayerController>();
+
+        // แก้ปัญหาการวาร์ป: จะวาร์ปไปจุด Safe ก็ต่อเมื่อ "เคยตายมาก่อนในรอบการเล่นนี้" เท่านั้น
+        if (PlayerPrefs.HasKey("SafeX") && hasDiedOnce)
+        {
+            transform.position = new Vector2(PlayerPrefs.GetFloat("SafeX"), PlayerPrefs.GetFloat("SafeY"));
+        }
 
         if (shieldEffectObject != null) shieldEffectObject.SetActive(false);
         UpdateUI();
@@ -66,12 +82,7 @@ public class HydrationSystem : MonoBehaviour
 
     public void TakeDamage(float damageAmount)
     {
-        // CRITICAL: Check PlayerController for Dash I-Frames
-        if (playerController != null && playerController.IsInvincible)
-        {
-            Debug.Log("🛡️ Dodged! No damage taken during Dash.");
-            return;
-        }
+        if (playerController != null && playerController.IsInvincible) return;
 
         currentHP -= damageAmount;
         if (playerController != null) playerController.TriggerDamageFlash();
@@ -97,21 +108,13 @@ public class HydrationSystem : MonoBehaviour
     {
         if (playerController == null) return;
 
-        // Ensure player is standing still on ground
         if (!playerController.IsWalking && !playerController.IsJumping && !playerController.IsFalling)
         {
-            // Lock movement for 2 seconds
             playerController.TriggerDrink(2.0f);
-
-            // Apply stats
             currentHydroric = Mathf.Max(0, currentHydroric - sodaDecreaseAmount);
             currentHP = Mathf.Min(maxHP, currentHP + sodaHealAmount);
 
             if (currentHydroric <= 0) isOverheated = false;
-        }
-        else
-        {
-            Debug.Log("Cannot drink while moving! Stop first.");
         }
     }
 
@@ -120,7 +123,8 @@ public class HydrationSystem : MonoBehaviour
         float currentRate = isShieldActive ? shieldedHeatIncreaseRate : heatIncreaseRate;
         currentHydroric += currentRate * Time.deltaTime;
         currentHydroric = Mathf.Clamp(currentHydroric, 0f, maxHydroric);
-        if (currentHydroric >= maxHydroric && !isOverheated) isOverheated = true;
+
+        if (currentHydroric >= maxHydroric) isOverheated = true;
     }
 
     private void CoolDown()
@@ -148,8 +152,22 @@ public class HydrationSystem : MonoBehaviour
         if (shieldEffectObject != null) shieldEffectObject.SetActive(isShieldActive);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) { if (collision.CompareTag("HotZone")) isInHotZone = true; }
-    private void OnTriggerExit2D(Collider2D collision) { if (collision.CompareTag("HotZone")) isInHotZone = false; }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // เช็คทั้ง Tag และ Layer ตามที่เพื่อนทำไว้
+        if (collision.CompareTag("HotZone") || ((1 << collision.gameObject.layer) & sunLayer) != 0)
+        {
+            isInHotZone = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HotZone") || ((1 << collision.gameObject.layer) & sunLayer) != 0)
+        {
+            isInHotZone = false;
+        }
+    }
 
     private void Die()
     {
@@ -159,21 +177,18 @@ public class HydrationSystem : MonoBehaviour
 
     IEnumerator RespawnRoutine()
     {
+        // บอกระบบว่ามีการตายเกิดขึ้นแล้ว รอบหน้าให้วาร์ปได้
+        hasDiedOnce = true;
+
+        // หยุดฟิสิกส์กันร่วงทะลุแมพ
+        if (rb != null) rb.simulated = false;
+
         GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<Collider2D>().enabled = false;
         if (playerController != null) playerController.enabled = false;
 
         yield return new WaitForSeconds(1.5f);
 
-        if (PlayerPrefs.HasKey("SafeX"))
-            transform.position = new Vector2(PlayerPrefs.GetFloat("SafeX"), PlayerPrefs.GetFloat("SafeY"));
-
-        currentHP = maxHP;
-        currentHydroric = 0f;
-        isOverheated = false;
-
-        GetComponent<SpriteRenderer>().enabled = true;
-        GetComponent<Collider2D>().enabled = true;
-        if (playerController != null) playerController.enabled = true;
+        // รีโหลดซีนเพื่อให้ศัตรูและวัตถุทั้งหมดรีเซ็ต
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
