@@ -3,10 +3,10 @@ using UnityEngine;
 public class BossManager : MonoBehaviour
 {
 
-    public GameObject bossPrefab;
+    public GameObject boss;
     public Vector2 BossPosition;
     public void SpawnBoss()
     {
-        Instantiate(bossPrefab, BossPosition, transform.rotation);
+        boss.SetActive(true);
     }
 }
