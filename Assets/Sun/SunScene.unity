@@ -1044,6 +1044,7 @@ MonoBehaviour:
   - bossroom
   enemiesInScene: []
   loadingCanvas: {fileID: 0}
+  isTransitioning: 0
 --- !u!4 &2034017212
 Transform:
   m_ObjectHideFlags: 0
@@ -1188,6 +1189,10 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 293982240}
+    - target: {fileID: 5857044658079098149, guid: d581efc92f5c550408913c07143b5994, type: 3}
+      propertyPath: currentHP
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 5857044658079098149, guid: d581efc92f5c550408913c07143b5994, type: 3}
       propertyPath: hpFillImage
       value: 
