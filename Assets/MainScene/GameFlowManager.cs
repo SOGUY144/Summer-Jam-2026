@@ -18,6 +18,10 @@ public class GameFlowManager : MonoBehaviour
 
     private bool isTransitioning = false;
 
+    private void Start()
+    {
+        enemiesInScene = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+    }
     void Update()
     {
         if (isTransitioning) return;

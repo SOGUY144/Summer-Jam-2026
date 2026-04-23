@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 957189582467893622}
   - component: {fileID: 4150089240561418090}
   - component: {fileID: 3234839132430273863}
+  - component: {fileID: 3135882244323673246}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Enemy
@@ -256,19 +257,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac3f68a18024b943b93960a0503a91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossAudioSource: {fileID: 3135882244323673246}
   bodyAnim: {fileID: 1243227354292496441}
   leftHandAnim: {fileID: 6221329905953610411}
   rightHandAnim: {fileID: 8105281181103762948}
   player: {fileID: 0}
   laserPoint: {fileID: 927588223377846794}
   laser: {fileID: 7462065897332931354}
+  laserDamageAmount: 30
+  laserDamageCooldown: 1
+  laserThickness: 0.5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  drawLaserDebug: 1
+  laserDebugColor: {r: 1, g: 0, b: 0, a: 1}
+  laserHitColor: {r: 0, g: 1, b: 0, a: 1}
   laserChargeTime: 1
   laserDuration: 2
   laserDistance: 50
   sweepStartAngle: -60
   sweepEndAngle: 60
+  laserChargeSound: {fileID: 8300000, guid: 3e509c939a1dee242ab73db913d991ec, type: 3}
+  laserSweepSound: {fileID: 8300000, guid: accb00ad0e968544485aa03a488834e3, type: 3}
   smokeObject: {fileID: 0}
   smokeDuration: 5
+  smokeReleaseSound: {fileID: 8300000, guid: c7930836c2d1691428d3cc44b4f0184b, type: 3}
   plasmaPrefab: {fileID: 7106081081946681364, guid: a0cc575337df56e46af12f74b67d4dad, type: 3}
   leftFirePoint: {fileID: 5588227031617974712}
   rightFirePoint: {fileID: 4144474809822085595}
@@ -276,6 +290,8 @@ MonoBehaviour:
   plasmaChargeTime: 1
   plasmaMin: 3
   plasmaMax: 5
+  plasmaChargeSound: {fileID: 0}
+  plasmaShootSound: {fileID: 8300000, guid: 2621d3cad93f6d94dafa9fc2584119b8, type: 3}
   attackInterval: 2
   roamArea: {fileID: 0}
   enableRoam: 1
@@ -368,6 +384,108 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  flashMaterial: {fileID: -876546973899608171, guid: 1bed4a2e50b5b8a458995a53f70ea6ea, type: 3}
+  flashDuration: 0.15
+  audioSource: {fileID: 3135882244323673246}
+  hitSound: {fileID: 8300000, guid: f10f3bfadace7104bbf286ea729a40a3, type: 3}
+  animator: {fileID: 0}
+--- !u!82 &3135882244323673246
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5388432901127323800}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5810361246551691295
 GameObject:
   m_ObjectHideFlags: 0
