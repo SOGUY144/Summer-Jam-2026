@@ -786,7 +786,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalScale: {x: 0.12, y: 0.12, z: 0.12}
   hoverScale: {x: 0.135, y: 0.135, z: 0.135}
-  animSpeed: 0.3
+  animSpeed: 0.2
 --- !u!1 &285175455
 GameObject:
   m_ObjectHideFlags: 0
@@ -2118,7 +2118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   normalScale: {x: 0.12, y: 0.12, z: 0.12}
   hoverScale: {x: 0.135, y: 0.135, z: 0.135}
-  animSpeed: 0.3
+  animSpeed: 0.2
 --- !u!1 &1438014810
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,7 +2211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1597686807
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2221,15 +2221,15 @@ RectTransform:
   m_GameObject: {fileID: 1597686806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
+  m_LocalScale: {x: 1.51, y: 1.51, z: 1.51}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1806986439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.1, y: 107}
-  m_SizeDelta: {x: 183.4588, y: 100}
+  m_AnchoredPosition: {x: 108, y: 144}
+  m_SizeDelta: {x: 141.0811, y: 80.1084}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1597686808
 MonoBehaviour:
@@ -2251,7 +2251,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8669914074693137380, guid: 75c258030cc084e4ebd962b8fb06fe9d, type: 3}
+  m_Sprite: {fileID: 597312058432618139, guid: 062ac7f3e41a7bd44b71fea62de918a5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
