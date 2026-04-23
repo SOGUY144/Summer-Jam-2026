@@ -91,7 +91,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_Sprite: {fileID: -6721222122159122048, guid: e85eb0caa8992c749921001e2b75f09f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -165,12 +165,16 @@ MonoBehaviour:
   maxHealth: 150
   flashMaterial: {fileID: -876546973899608171, guid: 1bed4a2e50b5b8a458995a53f70ea6ea, type: 3}
   flashDuration: 0.15
+  audioSource: {fileID: 0}
+  hitSound: {fileID: 0}
   animator: {fileID: 8131186786415687269}
   flySpeed: 2
   shootingDistance: 2
   waterBulletPrefab: {fileID: 2505123190166666458, guid: c6853b2c7f7d86d44a4e102e4dc3814b, type: 3}
   firePoint: {fileID: 7492859846226704132}
   fireRate: 2
+  attackChargeSound: {fileID: 0}
+  attackShootSound: {fileID: 0}
 --- !u!61 &8531493782702062110
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,7 +205,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

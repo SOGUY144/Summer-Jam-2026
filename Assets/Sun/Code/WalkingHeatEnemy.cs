@@ -61,7 +61,7 @@ public class WalkingHeatEnemy : EnemyBase
             rb.linearVelocity = new Vector2(directionX * walkSpeed, rb.linearVelocity.y);
 
             // Flip sprite WITHOUT resetting scale magnitude
-            transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * directionX, originalScale.y, originalScale.z);
+            transform.localScale = new Vector3(Mathf.Abs(originalScale.x) * -directionX, originalScale.y, originalScale.z);
 
             UpdateAnimation(rb.linearVelocity.x);
 
