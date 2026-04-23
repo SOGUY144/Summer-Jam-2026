@@ -1,61 +1,81 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using System.Collections;
 
-public class DiamondHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DiamondSwap : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image diamond1;
-    public Image diamond2;
+    public GameObject pairA_Left;
+    public GameObject pairA_Right;
+    public GameObject pairB_Left;
+    public GameObject pairB_Right;
 
-    public Color normalColor = Color.gray;
-    public Color color1 = Color.cyan;
-    public Color color2 = Color.yellow;
-
-    public Vector3 normalScale = Vector3.one;
-    public Vector3 hoverScale = new Vector3(1.2f, 1.2f, 1.2f);
-    public float animSpeed = 0.15f;
+    private bool isShowingA = true;
+    private bool canSwap = true;
 
     void Start()
     {
-        diamond1.color = normalColor;
-        diamond2.color = normalColor;
-        diamond1.transform.localScale = normalScale;
-        diamond2.transform.localScale = normalScale;
+        pairA_Left.SetActive(false);
+        pairA_Right.SetActive(false);
+        pairB_Left.SetActive(false);
+        pairB_Right.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        diamond1.color = color1;
-        diamond2.color = color2;
-
-        StopAllCoroutines();
-        StartCoroutine(ScaleTo(diamond1.transform, hoverScale));
-        StartCoroutine(ScaleTo(diamond2.transform, hoverScale));
+        pairA_Left.SetActive(true);
+        pairA_Right.SetActive(true);
+        pairB_Left.SetActive(false);
+        pairB_Right.SetActive(false);
+        isShowingA = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        diamond1.color = normalColor;
-        diamond2.color = normalColor;
-
-        StopAllCoroutines();
-        StartCoroutine(ScaleTo(diamond1.transform, normalScale));
-        StartCoroutine(ScaleTo(diamond2.transform, normalScale));
+        pairA_Left.SetActive(false);
+        pairA_Right.SetActive(false);
+        pairB_Left.SetActive(false);
+        pairB_Right.SetActive(false);
+        isShowingA = true;
+        canSwap = true;
     }
 
-    IEnumerator ScaleTo(Transform target, Vector3 targetScale)
+    void ShowPairA()
     {
-        Vector3 startScale = target.localScale;
-        float time = 0;
+        pairA_Left.SetActive(true);
+        pairA_Right.SetActive(true);
+        pairB_Left.SetActive(false);
+        pairB_Right.SetActive(false);
+        isShowingA = true;
+        StartCoroutine(ResetCanSwap());
+    }
 
-        while (time < 1f)
-        {
-            time += Time.deltaTime / animSpeed;
-            target.localScale = Vector3.Lerp(startScale, targetScale, time);
-            yield return null;
-        }
+    void ShowPairB()
+    {
+        pairA_Left.SetActive(false);
+        pairA_Right.SetActive(false);
+        pairB_Left.SetActive(true);
+        pairB_Right.SetActive(true);
+        isShowingA = false;
+        StartCoroutine(ResetCanSwap());
+    }
 
-        target.localScale = targetScale;
+    System.Collections.IEnumerator ResetCanSwap()
+    {
+        canSwap = false;
+        yield return new WaitForSeconds(0.2f);
+        canSwap = true;
+    }
+
+    public void OnHoverLeft()
+    {
+        if (!canSwap) return;
+        if (isShowingA) ShowPairB();
+        else ShowPairA();
+    }
+
+    public void OnHoverRight()
+    {
+        if (!canSwap) return;
+        if (!isShowingA) ShowPairA();
+        else ShowPairB();
     }
 }
