@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class BossManager : MonoBehaviour
 {
@@ -7,6 +9,6 @@ public class BossManager : MonoBehaviour
     public Vector2 BossPosition;
     public void SpawnBoss()
     {
-        boss.SetActive(true);
+        SceneManager.LoadScene("End");
     }
 }

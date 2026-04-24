@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
@@ -40,7 +41,13 @@ public class Bullet : MonoBehaviour
     {
         // ถ้ากระสุนเคยชนไปแล้วในเฟรมนี้ ให้หยุดทำงานทันที
         if (hasHit) return;
-
+        Debug.Log("💥 กระสุนชนกับ: " + hit.gameObject.name);
+        BossHp boss = hit.GetComponent<BossHp>();
+        if (boss != null)
+        {
+            boss.TakeDamage(damage);
+            Debug.Log("🎯 กระสุนโดนบอสและทำดาเมจ: " + damage);
+        }
         if (hit.CompareTag("Enemy"))
         {
             hasHit = true; // ล็อกว่าชนแล้วนะ
@@ -51,6 +58,11 @@ public class Bullet : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
+            else
+            {
+                Debug.LogWarning("⚠️ ศัตรูไม่มีสคริปต์ EnemyBase! ตรวจสอบ: " + hit.gameObject.name);
+            }
+
 
             // 2. ทำลายกระสุนทันที (ปิดการใช้งาน)
             CancelInvoke();

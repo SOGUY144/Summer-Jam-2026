@@ -49,6 +49,7 @@ public abstract class EnemyBase : MonoBehaviour, IResettable
         DetectTextureProperty();
     }
 
+    [ContextMenu("TakeDaage")]
     public virtual void TakeDamage(float damage)
     {
         if (isBusy && currentHealth <= 0) return; // Prevent double death

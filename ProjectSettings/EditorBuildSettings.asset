@@ -29,6 +29,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GUY/Map/BoosRoom.unity
     guid: ad3767fea7d27cd4ca2747a9f6e1e70b
+  - enabled: 1
+    path: Assets/End.unity
+    guid: 425bfce5e40c61141a8c8589943efa61
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

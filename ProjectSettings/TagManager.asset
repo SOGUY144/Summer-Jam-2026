@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - SavePoint
   - Pipe
+  - Boss
   layers:
   - Default
   - TransparentFX
