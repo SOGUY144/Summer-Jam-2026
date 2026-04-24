@@ -7,22 +7,29 @@ public class TimelineManager : MonoBehaviour
     public GameObject Timeline2;
     public bool IsStartTimeline1 = false;
 
-    public TutorialManager tutorialManager; // ลาก Tutorial_System มาใส่
+    public TutorialManager tutorialManager;
 
-    // ตัวที่ NPC หรือ Timeline เรียกตอนแรก
+    void Start()
+    {
+        // กันเหนียว: สั่งปิดมอนสเตอร์ทุกตัวใน List ทันทีที่เริ่มเกม
+        foreach (GameObject enemy in enemiesInScene)
+        {
+            if (enemy != null) enemy.SetActive(false);
+        }
+    }
+
     public void SpawnEnemy()
     {
         if (tutorialManager != null)
         {
-            tutorialManager.OpenTutorial(); // ให้ Tutorial เด้งก่อน
+            tutorialManager.OpenTutorial();
         }
         else
         {
-            RealSpawn(); // ถ้าไม่มี Tutorial ให้เกิดเลย
+            RealSpawn();
         }
     }
 
-    // ตัวที่ Tutorial จะเรียกกลับมาเมื่ออ่านจบ
     public void RealSpawn()
     {
         foreach (GameObject enemy in enemiesInScene)

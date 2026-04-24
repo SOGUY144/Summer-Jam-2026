@@ -224,7 +224,7 @@ MonoBehaviour:
   currentHP: 0
   maxHydroric: 100
   currentHydroric: 0
-  heatIncreaseRate: 10
+  heatIncreaseRate: 100
   shieldedHeatIncreaseRate: 5
   coolDownRate: 15
   overheatDamageRate: 10
@@ -236,6 +236,9 @@ MonoBehaviour:
   shieldUI: {fileID: 0}
   shieldAnimator: {fileID: 0}
   shieldEffectObject: {fileID: 3120457942303191148}
+  sunLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isInHotZone: 0
   isShieldActive: 0
   isOverheated: 0
@@ -288,7 +291,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3a9c145a2b40d8d44942021ec88df4d8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -322,8 +325,8 @@ MonoBehaviour:
   platformCreateSound: {fileID: 8300000, guid: ad1ad41232385e14f858f6027d1a6ff7, type: 3}
   hammerSmashSound: {fileID: 8300000, guid: 2cea9260df26b5a40b25645e88f70dd6, type: 3}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  chargingColor: {r: 1, g: 0.5, b: 0, a: 1}
-  readyColor: {r: 1, g: 0, b: 0, a: 1}
+  chargingColor: {r: 1, g: 1, b: 1, a: 1}
+  readyColor: {r: 1, g: 1, b: 1, a: 1}
   superJumpForce: 25
   jumpCooldown: 3
   steamJumpSound: {fileID: 8300000, guid: 32fd945332f8a71488cb686b41b1f863, type: 3}
@@ -345,7 +348,7 @@ BoxCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3a9c145a2b40d8d44942021ec88df4d8, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
